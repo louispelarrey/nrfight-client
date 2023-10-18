@@ -1,26 +1,38 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { CalendarIcon } from "@radix-ui/react-icons"
-import { addDays, format } from "date-fns"
-import { DateRange } from "react-day-picker"
+import * as React from "react";
+import { CalendarIcon } from "@radix-ui/react-icons";
+import { addDays, format } from "date-fns";
+import { DateRange } from "react-day-picker";
 
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { Calendar } from "@/components/ui/calendar"
-import { Label } from "@/components/ui/label"
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import { Label } from "@/components/ui/label";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
-import { fr } from "date-fns/locale"
+} from "@/components/ui/popover";
+import { fr } from "date-fns/locale";
+import { useEffect } from "react";
 
-export function CalendarDateRangePicker() {
+export function CalendarDateRangePicker({
+  handleDateChange,
+  index,
+}: {
+  handleDateChange: (index: number, dateRange: DateRange) => void;
+  index: number;
+}) {
   const [date, setDate] = React.useState<DateRange | undefined>({
     from: new Date(),
     to: addDays(new Date(), 3),
-  })
+  });
+
+  useEffect(() => {
+    if (!date) return;
+    handleDateChange(index, date);
+  }, [date, handleDateChange, index]);
 
   return (
     <div>
@@ -64,5 +76,5 @@ export function CalendarDateRangePicker() {
         </Popover>
       </div>
     </div>
-  )
+  );
 }

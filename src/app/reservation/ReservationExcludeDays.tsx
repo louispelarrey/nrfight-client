@@ -11,7 +11,6 @@ export default function ReservationExcludeDays({ excludedDaysPickers, addExclude
           {excludedDaysPickers}
           <Button
             variant="secondary"
-            className="w-1/3"
             onClick={addExcludedDayPicker}
           >
             Ajouter des jours à exclure

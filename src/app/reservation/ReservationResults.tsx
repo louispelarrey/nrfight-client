@@ -6,6 +6,7 @@ import { SportigoPlanningData } from "@/hooks/useSportigoData";
 import transformSportigoDataToFullCalendar from "@/lib/transformSportigoDataToFullCalendar";
 import { useEffect } from "react";
 import rrulePlugin from "@fullcalendar/rrule";
+import timeGridPlugin from '@fullcalendar/timegrid'
 
 interface ReservationResultsProps {
   sportigoData?: SportigoPlanningData;
@@ -21,18 +22,18 @@ export default function ReservationResults({
 
   console.log(sportigoDataToFullCalendar);
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-3 h-full">
       <h2>Resultat</h2>
       <FullCalendar
         timeZone="Europe/Paris"
-        plugins={[dayGridPlugin, rrulePlugin]}
+        plugins={[dayGridPlugin, timeGridPlugin, rrulePlugin]}
         locale={"fr"}
         initialView="dayGridMonth"
         weekends={true}
         headerToolbar={{
           left: "prev,next",
           center: "title",
-          right: "dayGridWeek,dayGridDay,dayGridMonth", // user can switch between the two
+          right: "timeGridDay,timeGridWeek,dayGridMonth", // user can switch between the two
         }}
         events={[
           ...sportigoDataToFullCalendar,
@@ -44,7 +45,7 @@ export default function ReservationResults({
                     end: format(dateRange.to, "yyyy-MM-dd"),
                     display: "background",
                     color: "red",
-                    rrule: null
+                    rrule: undefined
                   },
                 ]
               : []

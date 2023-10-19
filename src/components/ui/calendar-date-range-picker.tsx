@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 import { CalendarIcon } from "@radix-ui/react-icons";
 import { addDays, format } from "date-fns";
@@ -24,15 +22,14 @@ export function CalendarDateRangePicker({
   handleDateChange: (index: number, dateRange: DateRange) => void;
   index: number;
 }) {
-  const [date, setDate] = React.useState<DateRange | undefined>({
-    from: new Date(),
-    to: addDays(new Date(), 3),
-  });
+  
+  const [date, setDate] = React.useState<DateRange | undefined>();
 
-  useEffect(() => {
-    if (!date) return;
-    handleDateChange(index, date);
-  }, [date, handleDateChange, index]);
+  const handleSelect = (dateRange?: DateRange) => {
+    if (!dateRange) return;
+    setDate(dateRange);
+    handleDateChange(index, dateRange);
+  };
 
   return (
     <div>
@@ -68,7 +65,7 @@ export function CalendarDateRangePicker({
               mode="range"
               defaultMonth={date?.from}
               selected={date}
-              onSelect={setDate}
+              onSelect={handleSelect}
               numberOfMonths={1}
               locale={fr}
             />

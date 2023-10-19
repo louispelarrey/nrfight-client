@@ -21,7 +21,7 @@ export default function Reservation() {
 
   return (
     <>
-      <h1 className="text-5xl font-bold tracking-tight p-2 m-4 text-center text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90% ">
+      <h1 className="text-5xl font-bold tracking-tight p-2 m-6 text-center text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90% ">
         NRFight Better Reservation
       </h1>
 

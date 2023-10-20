@@ -1,4 +1,4 @@
-import { format } from "date-fns";
+import { addDays, format } from "date-fns";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import { DateRange } from "react-day-picker";
@@ -48,7 +48,7 @@ export default function ReservationResults({
               ? [
                   {
                     start: format(dateRange.from, "yyyy-MM-dd"),
-                    end: format(dateRange.to, "yyyy-MM-dd"),
+                    end: format(addDays(dateRange.to, 1), "yyyy-MM-dd"),
                     display: "background",
                     color: "red",
                     rrule: undefined,

@@ -28,7 +28,7 @@ export default function transformSportigoDataToFullCalendar(
     const utcStartDate = toUTCDate(event.startDate);
 
     return {
-      groupId: Number(event.id),
+      groupId: String(event.id),
       title: event.name,
       start: event.startDate,
       end: event.endDate,

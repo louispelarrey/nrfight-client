@@ -17,8 +17,7 @@ export default function ReservationResults({
   sportigoData,
   excludedDates,
 }: ReservationResultsProps) {
-  const sportigoDataToFullCalendar =
-    transformSportigoDataToFullCalendar(sportigoData);
+  const sportigoDataToFullCalendar = transformSportigoDataToFullCalendar(sportigoData);
 
   console.log(sportigoDataToFullCalendar);
   return (

@@ -35,7 +35,11 @@ export default function ReservationResults({
         headerToolbar={{
           left: "prev,next",
           center: "title",
-          right: "timeGridDay,timeGridWeek,dayGridMonth", // user can switch between the two
+          right: "dayGridDay,dayGridMonth", // user can switch between the two
+        }}
+        eventClick={(info) => {
+          console.log(info.event._def.groupId);
+
         }}
         events={[
           ...sportigoDataToFullCalendar,

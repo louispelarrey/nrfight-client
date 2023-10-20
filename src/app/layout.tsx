@@ -32,7 +32,9 @@ export default function RootLayout({ children }: PropsWithChildren) {
           enableSystem
           disableTransitionOnChange
         >
-          <Providers>{children}</Providers>
+          <Providers>
+            {children}
+          </Providers>
         </ThemeProvider>
       </body>
     </html>

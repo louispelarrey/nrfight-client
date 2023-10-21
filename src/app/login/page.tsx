@@ -17,7 +17,7 @@ export default function AuthenticationPage() {
               <h1 className="text-4xl font-semibold tracking-tight">
                 Bienvenue
               </h1>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-muted-foreground m-4">
                 Entrez l'email et le mot de passe que vous utilisez pour vous
                 connecter à l'application Sportigo NRFight (vos identifiants de
                 connexion ne sont <b>PAS</b> conservés par ce site)

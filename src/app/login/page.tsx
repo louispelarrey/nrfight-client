@@ -10,15 +10,12 @@ export const metadata: Metadata = {
 export default function AuthenticationPage() {
   return (
     <>
-      <h1 className="text-5xl font-bold tracking-tight p-2 m-6 text-center text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90% ">
-        NRFight Better Reservation
-      </h1>
       <div className="relative h-[100vh] flex flex-col items-center justify-center lg:px-0">
         <div className="lg:p-8">
           <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
             <div className="flex flex-col space-y-2 text-center">
-              <h1 className="text-2xl font-semibold tracking-tight">
-                Connexion
+              <h1 className="text-4xl font-semibold tracking-tight">
+                Bienvenue
               </h1>
               <p className="text-sm text-muted-foreground">
                 Entrez l'email et le mot de passe que vous utilisez pour vous

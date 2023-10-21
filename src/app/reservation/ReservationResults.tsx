@@ -29,16 +29,23 @@ export default function ReservationResults({
         locale={"fr"}
         allDaySlot={false}
         slotMinTime={"05:00:00"}
-        initialView="dayGridMonth"
+        initialView="dayGridDay"
         weekends={true}
+        titleFormat={{ year: "numeric", month: "numeric", day: "numeric" }}
         headerToolbar={{
           left: "prev,next",
           center: "title",
-          right: "dayGridDay,dayGridMonth", // user can switch between the two
+          right: "dayGridDay,dayGridMonth",
         }}
         eventClick={(info) => {
           console.log(info.event._def.groupId);
-
+        }}
+        buttonText={{
+          today: "Aujourd'hui",
+          month: "Mois",
+          week: "Semaine",
+          day: "Jour",
+          list: "Liste",
         }}
         events={[
           ...sportigoDataToFullCalendar,

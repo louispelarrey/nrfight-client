@@ -9,7 +9,7 @@ import { useContext, useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
 import { UserContext } from "@/providers/UserProvider";
-import { redirect } from "next/navigation";
+import { RedirectType, redirect } from "next/navigation";
 
 interface LoginData {
   email: string;
@@ -51,7 +51,7 @@ export function UserAuthForm() {
 
       if (data.member.appToken) {
         setToken(data.member.appToken);
-        redirect("/reservation")
+        redirect("/reservation", RedirectType.push);
       }
 
     } catch (e: any) {
@@ -62,7 +62,7 @@ export function UserAuthForm() {
     setIsLoading(false);
   };
 
-  if (token || (isClient && localStorage.getItem("token"))) redirect("/reservation");
+  if (token || (isClient && localStorage.getItem("token"))) redirect("/reservation", RedirectType.push);
 
   return (
     <div className="grid gap-6">

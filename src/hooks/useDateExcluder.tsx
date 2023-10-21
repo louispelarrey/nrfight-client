@@ -1,35 +1,50 @@
-import { useState, ReactNode } from 'react';
-import { DateRange } from 'react-day-picker';
-import { CalendarDateRangePicker } from '@/components/ui/calendar-date-range-picker';
+import { useState, ReactNode, useCallback, useEffect } from "react";
+import { DateRange } from "react-day-picker";
+import ExcludedDayPicker from "@/components/ui/excluded-day-picker";
 
-export default function useDateExcluder () {
+// This hook manages the exclusion of specific date ranges.
+export default function useDateExcluder() {
+  const [excludedDates, setExcludedDates] = useState<DateRange[]>([]);
+  const [excludedDaysPickers, setExcludedDaysPickers] = useState<ReactNode[]>([]);
 
-    const [excludedDates, setExcludedDates] = useState<DateRange[]>([]);
+  // Updates the date range for a specific ExcludedDayPicker.
+  const handleDateChange = (index: number, dateRange: DateRange) => {
+    const updatedDates = [...excludedDates];
+    updatedDates[index] = dateRange;
+    setExcludedDates(updatedDates);
+  };
 
-    const handleDateChange = (index: number, dateRange: DateRange) => {
-      const updatedDates = [...excludedDates];
-      updatedDates[index] = dateRange;
-      setExcludedDates(updatedDates);
-    };
-  
-    const [excludedDaysPickers, setExcludedDaysPickers] = useState<ReactNode[]>([
-      <CalendarDateRangePicker
-        key={0}
-        index={0}
+  // Removes an ExcludedDayPicker and its corresponding date range.
+  const removeExcludedDayPicker = (index: number) => {
+    const updatedDates = excludedDates.filter((_, idx) => idx !== index);
+    setExcludedDates(updatedDates);
+
+    const updatedPickers = excludedDaysPickers.filter((_, idx) => idx !== index);
+    setExcludedDaysPickers(updatedPickers);
+  };
+
+  // Adds a new ExcludedDayPicker with a default date range.
+  const addExcludedDayPicker = () => {
+    const pickerIndex = excludedDaysPickers.length;
+    const newPicker = (
+      <ExcludedDayPicker
+        key={pickerIndex}
+        index={pickerIndex}
         handleDateChange={handleDateChange}
-      />,
-    ]);
-  
-    const addExcludedDayPicker = () => {
-      setExcludedDaysPickers([
-        ...excludedDaysPickers,
-        <CalendarDateRangePicker
-          key={excludedDaysPickers.length}
-          index={excludedDaysPickers.length}
-          handleDateChange={handleDateChange}
-        />,
-      ]);
-    };
+        removeExcludedDayPicker={() => removeExcludedDayPicker(pickerIndex)}
+      />
+    );
 
-    return { excludedDates, excludedDaysPickers, addExcludedDayPicker };
+    setExcludedDaysPickers([...excludedDaysPickers, newPicker]);
+
+    const defaultDateRange = { from: undefined, to: undefined };
+    setExcludedDates([...excludedDates, defaultDateRange]);
+  };
+
+  // Initialize with a default ExcludedDayPicker.
+  useEffect(() => {
+    addExcludedDayPicker();
+  }, []);
+
+  return { excludedDates, excludedDaysPickers, addExcludedDayPicker };
 }

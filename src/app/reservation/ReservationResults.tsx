@@ -19,7 +19,6 @@ export default function ReservationResults({
 }: ReservationResultsProps) {
   const sportigoDataToFullCalendar = transformSportigoDataToFullCalendar(sportigoData);
 
-  console.log(sportigoDataToFullCalendar);
   return (
     <div className="flex flex-col gap-3 h-full">
       <h2>Resultat</h2>

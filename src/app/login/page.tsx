@@ -10,14 +10,14 @@ export const metadata: Metadata = {
 export default function AuthenticationPage() {
   return (
     <>
-      <div className="relative h-[100vh] flex flex-col items-center justify-center lg:px-0">
+      <div className="relative h-[100vh] flex flex-col items-center justify-center lg:px-0 m-4">
         <div className="lg:p-8">
           <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
             <div className="flex flex-col space-y-2 text-center">
               <h1 className="text-4xl font-semibold tracking-tight">
                 Bienvenue
               </h1>
-              <p className="text-sm text-muted-foreground m-4">
+              <p className="text-sm text-muted-foreground">
                 Entrez l'email et le mot de passe que vous utilisez pour vous
                 connecter à l'application Sportigo NRFight (vos identifiants de
                 connexion ne sont <b>PAS</b> conservés par ce site)

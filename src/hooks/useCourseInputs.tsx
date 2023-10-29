@@ -1,21 +1,30 @@
-import { useState, ReactNode } from "react";
-import { Input } from "@/components/ui/input";
+import { useState, ReactNode, useCallback, useEffect } from "react";
+import CoursesInput from "@/components/ui/courses-input";
+import { SportigoPlanningData } from "./useSportigoData";
 
-export default function useCourseInputs() {
-    const [courseInputs, setCourseInputs] = useState<ReactNode[]>([
-        <Input placeholder="ID Cours" className="w-1/3" key={0} />,
-      ]);
-    
-      const addCourseInput = () => {
-        setCourseInputs([
-          ...courseInputs,
-          <Input
-            placeholder="ID Cours"
-            className="w-1/3"
-            key={courseInputs.length}
-          />,
-        ]);
-      };
+export default function useCourseInputs(
+  sportigoData: SportigoPlanningData | undefined
+) {
 
-      return { courseInputs, addCourseInput };
+  const [courseInputs, setCourseInputs] = useState<ReactNode[]>([]);
+
+  const removeCourseInput = (index: number) => {
+    const updatedInputs = courseInputs.filter((_, idx) => idx !== index);
+    setCourseInputs(updatedInputs);
+  };
+
+  const addCourseInput = () => {
+    const inputIndex = courseInputs.length;
+    const newInput = (
+      <CoursesInput
+        sportigoData={sportigoData}
+        key={inputIndex}
+        removeCourseInput={() => removeCourseInput(inputIndex)}
+      />
+    );
+
+    setCourseInputs([...courseInputs, newInput]);
+  };
+
+  return { courseInputs, addCourseInput, removeCourseInput };
 }

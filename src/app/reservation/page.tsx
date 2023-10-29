@@ -18,21 +18,21 @@ export default function Reservation() {
   const { data: sportigoData } = useSportigoData();
   const { excludedDates, excludedDaysPickers, addExcludedDayPicker } =
     useDateExcluder();
-  const { courseInputs, addCourseInput } = useCourseInputs();
+  const { courseInputs, addCourseInput } = useCourseInputs(sportigoData);
 
   return (
     <Protected>
       <>
-        <h1 className="text-5xl font-bold tracking-tight p-2 m-6 text-center text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90% ">
+        <h1 className="text-5xl font-bold tracking-tight p-2 m-6 text-center">
           NRFight Better Reservation
         </h1>
 
         <div className="flex flex-col gap-8 m-8">
-          {/* <ReservationIDCourse
-          courseInputs={courseInputs}
-          addCourseInput={addCourseInput}
-        />
-        <Separator /> */}
+          <ReservationIDCourse
+            courseInputs={courseInputs}
+            addCourseInput={addCourseInput}
+          />
+        <Separator />
           <ReservationExcludeDays
             excludedDaysPickers={excludedDaysPickers}
             addExcludedDayPicker={addExcludedDayPicker}

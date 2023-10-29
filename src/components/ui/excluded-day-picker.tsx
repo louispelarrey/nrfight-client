@@ -5,7 +5,7 @@ import { Button } from "./button";
 interface ExcludedDayPickerProps {
   index: number;
   handleDateChange: (index: number, dateRange: DateRange) => void;
-  removeExcludedDayPicker: (index: number) => void;
+  removeExcludedDayPicker: () => void;
 }
 
 export default function ExcludedDayPicker({ index, handleDateChange, removeExcludedDayPicker }: ExcludedDayPickerProps) {
@@ -17,7 +17,7 @@ export default function ExcludedDayPicker({ index, handleDateChange, removeExclu
           handleDateChange={handleDateChange}
         />
       </div>
-      <Button variant="destructive" onClick={() => removeExcludedDayPicker(0)}>
+      <Button variant="destructive" onClick={removeExcludedDayPicker}>
         Supprimer
       </Button>
     </div>

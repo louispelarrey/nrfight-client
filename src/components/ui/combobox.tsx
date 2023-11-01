@@ -18,20 +18,40 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { Skeleton } from "./skeleton"
-
+import { FilterContext } from "@/providers/FilterProvider"
+import { useContext, useEffect } from "react"
 
 interface ICourse {
   value: string
   label: string
 }
 
-export default function Combobox({ courses }: { courses?: ICourse[] }) {
+interface IComboboxProps {
+  courses?: ICourse[]
+  index: number
+}
+
+export default function Combobox({ courses, index }: IComboboxProps ) {
   const [open, setOpen] = React.useState(false)
   const [value, setValue] = React.useState("")
+  const {reservedCourses, setReservedCourses} = useContext(FilterContext);
+
+  useEffect(() => {
+    if (!value) return
+
+    const updatedReservedCourses = [...reservedCourses]
+    updatedReservedCourses[index] = value
+    setReservedCourses(updatedReservedCourses)
+
+    return () => {
+      const updatedReservedCourses = [...reservedCourses]
+      updatedReservedCourses[index] = ""
+      setReservedCourses(updatedReservedCourses)
+    }
+  }, [value])
 
   if (!courses) return <Skeleton className="w-full h-10" />
 
-  console.log(value)
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>

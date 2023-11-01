@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useContext, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import FullCalendar from "@fullcalendar/react";
@@ -13,12 +13,12 @@ import ReservationIDCourse from "./ReservationIDCourse";
 import ReservationExcludeDays from "./ReservationExcludeDays";
 import ReservationResults from "./ReservationResults";
 import { Protected } from "@/security/protected";
+import { FilterContext } from "@/providers/FilterProvider";
 
 export default function Reservation() {
+  
   const { data: sportigoData } = useSportigoData();
-  const { excludedDates, excludedDaysPickers, addExcludedDayPicker } =
-    useDateExcluder();
-  const { courseInputs, addCourseInput } = useCourseInputs(sportigoData);
+  const { excludedDates } = useContext(FilterContext);
 
   return (
     <Protected>
@@ -29,14 +29,10 @@ export default function Reservation() {
 
         <div className="flex flex-col gap-8 m-8">
           <ReservationIDCourse
-            courseInputs={courseInputs}
-            addCourseInput={addCourseInput}
+            sportigoData={sportigoData}
           />
-        <Separator />
-          <ReservationExcludeDays
-            excludedDaysPickers={excludedDaysPickers}
-            addExcludedDayPicker={addExcludedDayPicker}
-          />
+          <Separator />
+          <ReservationExcludeDays />
           <Separator />
           <ReservationResults
             sportigoData={sportigoData}

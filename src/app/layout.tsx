@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: PropsWithChildren) {
   return (
-    <html lang="en">
+    <html lang="fr">
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased",

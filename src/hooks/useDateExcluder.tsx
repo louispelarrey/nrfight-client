@@ -1,10 +1,11 @@
-import { useState, ReactNode, useCallback, useEffect } from "react";
+import { useState, ReactNode, useCallback, useEffect, useContext } from "react";
 import { DateRange } from "react-day-picker";
 import ExcludedDayPicker from "@/components/ui/excluded-day-picker";
+import { FilterContext } from "@/providers/FilterProvider";
 
 // This hook manages the exclusion of specific date ranges.
 export default function useDateExcluder() {
-  const [excludedDates, setExcludedDates] = useState<DateRange[]>([]);
+  const {excludedDates, setExcludedDates} = useContext(FilterContext);
   const [excludedDaysPickers, setExcludedDaysPickers] = useState<ReactNode[]>([]);
 
   // Updates the date range for a specific ExcludedDayPicker.
@@ -44,6 +45,11 @@ export default function useDateExcluder() {
   // Initialize with a default ExcludedDayPicker.
   useEffect(() => {
     addExcludedDayPicker();
+
+    return () => {
+      setExcludedDates([]);
+      setExcludedDaysPickers([]);
+    };
   }, []);
 
   return { excludedDates, excludedDaysPickers, addExcludedDayPicker };

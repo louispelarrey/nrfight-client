@@ -5,11 +5,13 @@ import { Button } from "./button";
 interface CoursesInputProps {
   sportigoData: SportigoPlanningData | undefined;
   removeCourseInput: () => void;
+  index: number;
 }
 
 export default function CoursesInput({
   sportigoData,
   removeCourseInput,
+  index
 }: CoursesInputProps) {
   return (
     <div className="flex flex-row gap-3 w-full">
@@ -25,6 +27,7 @@ export default function CoursesInput({
             minute: "2-digit",
           })}`,
         }))}
+        index={index}
       />
       <Button variant="destructive" onClick={removeCourseInput}>
         Supprimer

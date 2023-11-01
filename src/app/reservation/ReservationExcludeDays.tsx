@@ -1,13 +1,10 @@
 import { Button } from "@/components/ui/button";
+import useDateExcluder from "@/hooks/useDateExcluder";
 
-interface ReservationExcludeDaysProps {
-  excludedDaysPickers: React.ReactNode[];
-  addExcludedDayPicker: () => void;
-}
-export default function ReservationExcludeDays({
-  excludedDaysPickers,
-  addExcludedDayPicker,
-}: ReservationExcludeDaysProps) {
+export default function ReservationExcludeDays() {
+
+  const { excludedDaysPickers, addExcludedDayPicker } = useDateExcluder();
+    
   return (
     <div className="flex flex-col gap-3">
       <h2>Prendre des vacances (jours où aucune réservation ne compte)</h2>

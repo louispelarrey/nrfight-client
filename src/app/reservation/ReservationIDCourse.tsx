@@ -1,19 +1,15 @@
 import { Button } from "@/components/ui/button";
-import { ReactNode, useEffect } from "react";
+import { SportigoPlanningData } from "@/hooks/useSportigoData";
+import useCourseInputs from "@/hooks/useCourseInputs";
 
 interface ReservationIDCourseProps {
-  courseInputs: ReactNode[];
-  addCourseInput: () => void;
+  sportigoData: SportigoPlanningData | undefined;
 }
 
 export default function ReservationIDCourse({
-  courseInputs,
-  addCourseInput,
+  sportigoData,
 }: ReservationIDCourseProps) {
-
-  useEffect(() => {
-    addCourseInput();
-  }, []);
+  const { courseInputs, addCourseInput } = useCourseInputs(sportigoData);
 
   return (
     <div className="flex flex-col gap-3">

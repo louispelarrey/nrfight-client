@@ -1,8 +1,10 @@
+"use client"
+
 import { createContext, useState } from 'react';
 import { DateRange } from 'react-day-picker';
 
 export interface FilterContext {
-  reservedCourses: string[];
+  reservedCourses: string[]
   setReservedCourses: (reservedCourses: string[]) => void;
   
   excludedDates: DateRange[];

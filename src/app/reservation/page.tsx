@@ -1,24 +1,11 @@
-"use client";
-
-import React, { useContext, useState } from "react";
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import FullCalendar from "@fullcalendar/react";
-import dayGridPlugin from "@fullcalendar/daygrid";
-import { format } from "date-fns";
-import useSportigoData from "@/hooks/useSportigoData";
-import useDateExcluder from "@/hooks/useDateExcluder";
-import useCourseInputs from "@/hooks/useCourseInputs";
 import ReservationIDCourse from "./ReservationIDCourse";
 import ReservationExcludeDays from "./ReservationExcludeDays";
 import ReservationResults from "./ReservationResults";
 import { Protected } from "@/security/protected";
-import { FilterContext } from "@/providers/FilterProvider";
+import ReservationSave from "./ReservationSave";
 
 export default function Reservation() {
-  
-  const { data: sportigoData } = useSportigoData();
-  const { excludedDates } = useContext(FilterContext);
 
   return (
     <Protected>
@@ -28,18 +15,13 @@ export default function Reservation() {
         </h1>
 
         <div className="flex flex-col gap-8 m-8">
-          <ReservationIDCourse
-            sportigoData={sportigoData}
-          />
+          <ReservationIDCourse />
           <Separator />
           <ReservationExcludeDays />
           <Separator />
-          <ReservationResults
-            sportigoData={sportigoData}
-            excludedDates={excludedDates}
-          />
+          <ReservationResults />
           <Separator />
-          <Button>Envoyer</Button>
+          <ReservationSave />
         </div>
       </>
     </Protected>

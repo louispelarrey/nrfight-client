@@ -1,3 +1,5 @@
+"use client"
+
 import { useContext } from "react";
 import { RedirectType, redirect } from "next/navigation";
 import { UserContext } from "@/providers/UserProvider";

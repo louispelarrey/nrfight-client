@@ -1,3 +1,5 @@
+"use client"
+
 import { useState, ReactNode, useCallback, useEffect, useContext } from "react";
 import { DateRange } from "react-day-picker";
 import ExcludedDayPicker from "@/components/ui/excluded-day-picker";

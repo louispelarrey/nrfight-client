@@ -1,23 +1,23 @@
+"use client"
+
 import { addDays, format } from "date-fns";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import { DateRange } from "react-day-picker";
 import { SportigoPlanningData } from "@/hooks/useSportigoData";
 import transformSportigoDataToFullCalendar from "@/lib/transformSportigoDataToFullCalendar";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import rrulePlugin from "@fullcalendar/rrule";
 import timeGridPlugin from "@fullcalendar/timegrid";
+import { FilterContext } from "@/providers/FilterProvider";
+import { SportigoContext } from "@/providers/SportigoDataProvider";
 
-interface ReservationResultsProps {
-  sportigoData?: SportigoPlanningData;
-  excludedDates: DateRange[];
-}
+export default function ReservationResults() {
 
-export default function ReservationResults({
-  sportigoData,
-  excludedDates,
-}: ReservationResultsProps) {
+  const { sportigoData } = useContext(SportigoContext);
   const sportigoDataToFullCalendar = transformSportigoDataToFullCalendar(sportigoData);
+
+  const { excludedDates } = useContext(FilterContext);
 
   return (
     <div className="flex flex-col gap-3 h-full">
@@ -37,7 +37,7 @@ export default function ReservationResults({
           right: "dayGridDay,dayGridMonth",
         }}
         eventClick={(info) => {
-          console.log(info.event._def.groupId);
+          console.log(info.event.groupId);
         }}
         buttonText={{
           today: "Aujourd'hui",

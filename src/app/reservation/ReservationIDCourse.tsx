@@ -1,14 +1,14 @@
+"use client"
+
 import { Button } from "@/components/ui/button";
 import { SportigoPlanningData } from "@/hooks/useSportigoData";
 import useCourseInputs from "@/hooks/useCourseInputs";
+import { SportigoContext } from "@/providers/SportigoDataProvider";
+import React, { useContext } from "react";
 
-interface ReservationIDCourseProps {
-  sportigoData: SportigoPlanningData | undefined;
-}
+export default function ReservationIDCourse() {
 
-export default function ReservationIDCourse({
-  sportigoData,
-}: ReservationIDCourseProps) {
+  const { sportigoData } = useContext(SportigoContext);
   const { courseInputs, addCourseInput } = useCourseInputs(sportigoData);
 
   return (

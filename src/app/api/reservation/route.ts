@@ -76,7 +76,7 @@ async function reserveDate(
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Sportigo-Token": "23a622c8a1a71af1a3b2c2e623d9b584b55e8293",
+        "Sportigo-Token": token,
       },
       body: JSON.stringify({
         eventId: `_generated:${reservedCourse.id}:${reservedDay.getFullYear()}${reservedDay.getMonth() + 1}${reservedDay.getDate()}`,

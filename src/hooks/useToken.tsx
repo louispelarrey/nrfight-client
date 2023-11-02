@@ -1,14 +1,17 @@
+import { RedirectType, redirect } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 
 export default function useToken() {
   const [tokenState, setTokenState] = useState<string | null>(null);
 
   useEffect(() => {
-    const token = localStorage.getItem("token") || "";
+    const token = tokenState || localStorage.getItem("token");
     setTokenState(token);
   }, []);
 
   const saveToken = useCallback((token: string) => {
+    console.log("Saving token", token)
+
     localStorage.setItem("token", token);
     setTokenState(token);
   }, []);
@@ -16,6 +19,8 @@ export default function useToken() {
   const removeToken = useCallback(() => {
     localStorage.removeItem("token");
     setTokenState("");
+
+    redirect("/login", RedirectType.push);
   }, []);
 
   return {

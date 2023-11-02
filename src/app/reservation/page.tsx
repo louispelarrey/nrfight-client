@@ -1,11 +1,37 @@
+"use client";
+
 import { Separator } from "@/components/ui/separator";
 import ReservationIDCourse from "./ReservationIDCourse";
 import ReservationExcludeDays from "./ReservationExcludeDays";
 import ReservationResults from "./ReservationResults";
 import { Protected } from "@/security/protected";
 import ReservationSave from "./ReservationSave";
+import useToken from "@/hooks/useToken";
+import { useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 export default function Reservation() {
+  const { token, logout } = useToken();
+  
+  useQuery({
+    queryKey: ['member'],
+    queryFn: async () => {
+    
+      const res = await fetch("/api/member", {
+        method: "POST",
+        body: JSON.stringify({ token }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!res.ok) logout();
+
+      return res.json();
+    },
+    enabled: !!token,
+  })
+  
 
   return (
     <Protected>

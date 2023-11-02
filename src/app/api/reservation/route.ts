@@ -43,25 +43,19 @@ export async function POST(request: Request): Promise<Response> {
     const { excludedDates, reservedCourses, token }: IRequestBody =
       await request.json();
 
-    try {
-      const promises = [];
-      for (const reservedCourse of reservedCourses) {
-        const reservedDays = getAllReservedDaysPerDayNumber(
-          reservedCourse.dayNumber
-        );
-        for (const reservedDay of reservedDays) {
-          promises.push(reserveDate(token, reservedCourse, reservedDay));
-        }
+    const promises = [];
+    for (const reservedCourse of reservedCourses) {
+      const reservedDays = getAllReservedDaysPerDayNumber(
+        reservedCourse.dayNumber
+      );
+      for (const reservedDay of reservedDays) {
+        promises.push(reserveDate(token, reservedCourse, reservedDay));
       }
-
-      await Promise.allSettled(promises);
-
-      return new Response("OK", { status: 200 });
-    } catch (e) {
-      console.error(e);
-
-      return new Response("error", { status: 500 });
     }
+
+    await Promise.allSettled(promises);
+
+    return new Response("OK", { status: 200 });
   } catch (error) {
     console.log("API ERROR", error);
 
@@ -74,14 +68,7 @@ async function reserveDate(
   reservedCourse: IReservedCourse,
   reservedDay: Date
 ): Promise<void> {
-  const eventId = `_generated:${
-    reservedCourse.id
-  }:${reservedDay.getFullYear()}${
-    reservedDay.getMonth() + 1
-  }${reservedDay.getDate()}`;
-  const date = `${reservedDay.getFullYear()}-${
-    reservedDay.getMonth() + 1
-  }-${reservedDay.getDate()} ${reservedCourse.hour}`;
+
 
   const response = await fetch(
     "https://nrfight.app.sportigo.fr/api/sportigo/reservation",
@@ -89,11 +76,11 @@ async function reserveDate(
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Sportigo-Token": token,
+        "Sportigo-Token": "23a622c8a1a71af1a3b2c2e623d9b584b55e8293",
       },
       body: JSON.stringify({
-        eventId: eventId,
-        date: date,
+        eventId: `_generated:${reservedCourse.id}:${reservedDay.getFullYear()}${reservedDay.getMonth() + 1}${reservedDay.getDate()}`,
+        date: `${reservedDay.getFullYear()}-${reservedDay.getMonth() + 1}-${reservedDay.getDate()} ${reservedCourse.hour}`,
         members: ["549336"],
         coaching: false,
         discipline: 38,
@@ -101,6 +88,8 @@ async function reserveDate(
       }),
     }
   );
+
+  console.log("Reserved", `_generated:${reservedCourse.id}:${reservedDay.getFullYear()}${reservedDay.getMonth() + 1}${reservedDay.getDate()}`, `${reservedDay.getFullYear()}-${reservedDay.getMonth() + 1}-${reservedDay.getDate()} ${reservedCourse.hour}`)
 
   if (!response.ok) {
     // Handle error

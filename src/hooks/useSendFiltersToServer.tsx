@@ -23,7 +23,7 @@ export default function useSendFiltersToServer() {
       fetch("/api/reservation", {
         method: "POST",
         body: JSON.stringify({
-          fullEventInfo,
+          reservedCourses: fullEventInfo,
           excludedDates,
           token: localStorage.getItem("token"),
         }),

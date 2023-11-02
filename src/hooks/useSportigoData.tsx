@@ -43,6 +43,13 @@ export interface SportigoPlanningData {
     status: string;
     success: boolean;
     events: Events;
+    resources: {
+      rows: {
+        id: number;
+        name: string;
+        eventColor: string;
+      }[];
+    };
   };
 }
 

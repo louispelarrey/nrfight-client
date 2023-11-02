@@ -31,7 +31,7 @@ export default function transformSportigoDataToFullCalendar(
       groupId: String(event.id),
       title: event.name,
       start: event.startDate,
-      end: event.endDate,
+      // end: event.endDate,
       allDay: false,
       rrule: recurrenceRule
         ? {

@@ -68,8 +68,6 @@ async function reserveDate(
   reservedCourse: IReservedCourse,
   reservedDay: Date
 ): Promise<void> {
-
-
   const response = await fetch(
     "https://nrfight.app.sportigo.fr/api/sportigo/reservation",
     {
@@ -83,13 +81,11 @@ async function reserveDate(
         date: `${reservedDay.getFullYear()}-${reservedDay.getMonth() + 1}-${reservedDay.getDate()} ${reservedCourse.hour}`,
         members: ["549336"],
         coaching: false,
-        discipline: 38,
+        discipline: null,
         nbFriends: null,
       }),
     }
   );
-
-  console.log("Reserved", `_generated:${reservedCourse.id}:${reservedDay.getFullYear()}${reservedDay.getMonth() + 1}${reservedDay.getDate()}`, `${reservedDay.getFullYear()}-${reservedDay.getMonth() + 1}-${reservedDay.getDate()} ${reservedCourse.hour}`)
 
   if (!response.ok) {
     // Handle error

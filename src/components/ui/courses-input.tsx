@@ -18,7 +18,9 @@ export default function CoursesInput({
       <Combobox
         courses={sportigoData?.data.events.rows.map((course) => ({
           value: String(course.id),
-          label: `${course.name} | Tous les ${new Date(
+
+          label: `
+          ${course.name} | Tous les ${new Date(
             course.startDate
           ).toLocaleDateString("fr-FR", { weekday: "long" })} à ${new Date(
             course.startDate

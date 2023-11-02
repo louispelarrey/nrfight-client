@@ -16,8 +16,11 @@ export default function getInfosFromSportigoData(
     const startDate = new Date(event.startDate);
 
     // Get day number (1-7) and hour (e.g., "16:30")
-    const dayNumber = startDate.getDay() || 7; // Convert Sunday from 0 to 7
-    const hour = startDate.toISOString().substring(11, 16);
+    const dayNumber = startDate.getDay()
+    const hour = startDate.toLocaleTimeString("fr-FR", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
 
     // Check if event ID is present in reservedCourses array
     if (reservedCourses.includes(event.id.toString())) {

@@ -5,11 +5,16 @@ import { SportigoPlanningData } from "@/hooks/useSportigoData";
 import useCourseInputs from "@/hooks/useCourseInputs";
 import { SportigoContext } from "@/providers/SportigoDataProvider";
 import React, { useContext } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function ReservationIDCourse() {
 
-  const { sportigoData } = useContext(SportigoContext);
+  const { sportigoData, isFetching, error } = useContext(SportigoContext);
   const { courseInputs, addCourseInput } = useCourseInputs(sportigoData);
+
+  if (isFetching) return <Skeleton className="w-full h-12" />;
+
+  if (error) return <p>Une erreur est survenue</p>;
 
   return (
     <div className="flex flex-col gap-3">

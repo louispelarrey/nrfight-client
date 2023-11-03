@@ -63,11 +63,11 @@ export default function Combobox({ courses, index }: IComboboxProps ) {
         >
           {value
             ? courses.find((course) => course.value === value)?.label
-            : "Sélectionner un cours à réserver..."}
+            : "Rechercher un cours"}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[70vw] p-0 max-h-[70vh] overflow-y-auto overflow-hidden">
+      <PopoverContent className="p-0 max-h-[35vh] overflow-y-auto absolute bottom-100" align="start"> 
         <Command>
           <CommandInput placeholder="Rechercher un cours..." />
           <CommandEmpty>Pas de cours trouvé.</CommandEmpty>

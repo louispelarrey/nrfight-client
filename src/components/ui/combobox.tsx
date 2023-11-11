@@ -20,7 +20,7 @@ import {
 import { Skeleton } from "./skeleton";
 import { FilterContext } from "@/providers/FilterProvider";
 import { useContext, useEffect, useState } from "react";
-import useRetreiveReservations from "@/hooks/useRetreiveReservations";
+import useRetreiveReservations, { IReservations } from "@/hooks/useRetreiveReservations";
 import { RetreivedReservationsContext } from "@/providers/RetreivedReservationsProvider";
 
 interface ICourse {
@@ -29,12 +29,12 @@ interface ICourse {
 }
 
 interface IComboboxProps {
+  reservations?: IReservations;
   courses?: ICourse[];
   index: number;
 }
 
-export default function Combobox({ courses, index }: IComboboxProps) {
-  const {reservations} = useContext(RetreivedReservationsContext)
+export default function Combobox({ reservations, courses, index }: IComboboxProps) {
 
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
@@ -46,7 +46,7 @@ export default function Combobox({ courses, index }: IComboboxProps) {
     const updatedReservedCourses = [...reservedCourses];
     updatedReservedCourses[index] = value;
     setReservedCourses(updatedReservedCourses);
-  }, [value, reservedCourses, setReservedCourses, index]);
+  }, [value]);
 
   useEffect(() => {
     if (!reservations || reservations.reservedCourses.length === 0 || !reservations.reservedCourses[index]) return;

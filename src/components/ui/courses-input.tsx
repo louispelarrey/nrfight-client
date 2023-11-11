@@ -17,8 +17,6 @@ export default function CoursesInput({
   index
 }: CoursesInputProps) {
 
-  const {reservations} = useContext(RetreivedReservationsContext)
-
   const courses = useMemo(() => {
     return sportigoData?.data.events.rows.map((course) => ({
       value: String(course.id),

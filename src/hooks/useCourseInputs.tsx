@@ -19,18 +19,18 @@ export default function useCourseInputs(
   };
 
   const addCourseInput = () => {
-    console.log("add course input", courseInputs.length)
-    const inputIndex = courseInputs.length;
-    const newInput = (
-      <CoursesInput
-        sportigoData={sportigoData}
-        key={inputIndex}
-        removeCourseInput={() => removeCourseInput(inputIndex)}
-        index={inputIndex}
-      />
-    );
-
-    setCourseInputs([...courseInputs, newInput]);
+    setCourseInputs((prev) => {
+      const inputIndex = prev.length;
+      const newInput = (
+        <CoursesInput
+          sportigoData={sportigoData}
+          key={inputIndex}
+          removeCourseInput={() => removeCourseInput(inputIndex)}
+          index={inputIndex}
+        />
+      );
+      return [...prev, newInput];
+    });
   };
 
   useEffect(() => {
@@ -39,7 +39,6 @@ export default function useCourseInputs(
     const numberOfCourses = reservations?.reservedCourses.length || 1;
     if (courseInputs.length < numberOfCourses) {
       for (let i = courseInputs.length; i < numberOfCourses; i++) {
-        console.log("add course input", i);
         addCourseInput();
       }
     }

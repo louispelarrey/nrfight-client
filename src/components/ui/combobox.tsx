@@ -1,39 +1,42 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Check, ChevronsUpDown } from "lucide-react"
+import * as React from "react";
+import { Check, ChevronsUpDown } from "lucide-react";
 
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import {
   Command,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
-} from "@/components/ui/command"
+} from "@/components/ui/command";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
-import { Skeleton } from "./skeleton"
-import { FilterContext } from "@/providers/FilterProvider"
-import { useContext, useEffect } from "react"
+} from "@/components/ui/popover";
+import { Skeleton } from "./skeleton";
+import { FilterContext } from "@/providers/FilterProvider";
+import { useContext, useEffect, useState } from "react";
+import useRetreiveReservations from "@/hooks/useRetreiveReservations";
 
 interface ICourse {
-  value: string
-  label: string
+  value: string;
+  label: string;
 }
 
 interface IComboboxProps {
-  courses?: ICourse[]
-  index: number
+  courses?: ICourse[];
+  index: number;
 }
 
-export default function Combobox({ courses, index }: IComboboxProps ) {
-  const [open, setOpen] = React.useState(false)
-  const [value, setValue] = React.useState("")
+export default function Combobox({ courses, index }: IComboboxProps) {
+  const { data: reservations } = useRetreiveReservations();
+
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState("");
   const {reservedCourses, setReservedCourses} = useContext(FilterContext);
 
   useEffect(() => {
@@ -42,10 +45,13 @@ export default function Combobox({ courses, index }: IComboboxProps ) {
     const updatedReservedCourses = [...reservedCourses];
     updatedReservedCourses[index] = value;
     setReservedCourses(updatedReservedCourses);
-}, [value, reservedCourses, setReservedCourses, index]);
+  }, [value, reservedCourses, setReservedCourses, index, reservations]);
 
+  useEffect(() => {
+    if (!reservations || reservations.reservedCourses.length === 0 || !reservations.reservedCourses[index]) return;
 
-  if (!courses) return <Skeleton className="w-full h-10" />
+    setValue(reservations.reservedCourses[index].sportigoId);
+  }, [reservations]);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -56,7 +62,7 @@ export default function Combobox({ courses, index }: IComboboxProps ) {
           aria-expanded={open}
           className="w-full justify-between"
         >
-          {value
+          {value && courses
             ? courses.find((course) => course.value === value)?.label
             : "Rechercher un cours"}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -67,13 +73,17 @@ export default function Combobox({ courses, index }: IComboboxProps ) {
           <CommandInput placeholder="Rechercher un cours..." />
           <CommandEmpty>Pas de cours trouvé.</CommandEmpty>
           <CommandGroup>
-            {courses.map((course) => (
+            {courses && courses.map((course) => (
               <CommandItem
                 key={course.value}
                 value={`${course.value}-${course.label}`}
                 onSelect={(currentValue) => {
-                  setValue(currentValue === value.split("-")[0] ? "" : currentValue.split("-")[0])
-                  setOpen(false)
+                  setValue(
+                    currentValue === value.split("-")[0]
+                      ? ""
+                      : currentValue.split("-")[0]
+                  );
+                  setOpen(false);
                 }}
               >
                 <Check
@@ -89,5 +99,5 @@ export default function Combobox({ courses, index }: IComboboxProps ) {
         </Command>
       </PopoverContent>
     </Popover>
-  )
+  );
 }

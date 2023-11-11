@@ -13,14 +13,19 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { fr } from "date-fns/locale";
+import { useEffect } from "react";
 
 export function CalendarDateRangePicker({
+  defaultValue,
   handleDateChange,
   index,
 }: {
+  defaultValue?: DateRange;
   handleDateChange: (index: number, dateRange: DateRange) => void;
   index: number;
 }) {
+
+  console.log(defaultValue)
   const [date, setDate] = React.useState<DateRange | undefined>();
 
   const handleSelect = (dateRange?: DateRange) => {
@@ -29,6 +34,12 @@ export function CalendarDateRangePicker({
     setDate(dateRange);
     handleDateChange(index, dateRange);
   };
+
+  useEffect(() => {
+    if (!defaultValue) return;
+
+    setDate(defaultValue);
+  }, [defaultValue]);
 
   return (
     <div className="grid gap-2 w-100 grow">

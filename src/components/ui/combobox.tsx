@@ -29,12 +29,13 @@ interface ICourse {
 }
 
 interface IComboboxProps {
-  reservations?: IReservations;
   courses?: ICourse[];
   index: number;
 }
 
-export default function Combobox({ reservations, courses, index }: IComboboxProps) {
+export default function Combobox({ courses, index }: IComboboxProps) {
+
+  const { reservations } = useContext(RetreivedReservationsContext);
 
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");

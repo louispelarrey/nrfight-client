@@ -9,6 +9,8 @@ import { RetreivedReservationsContext } from "@/providers/RetreivedReservationsP
 export default function useCourseInputs(
   sportigoData: SportigoPlanningData | undefined
 ) {
+
+  const { reservations } = useContext(RetreivedReservationsContext);  
   const [courseInputs, setCourseInputs] = useState<ReactNode[]>([]);
 
   const removeCourseInput = (index: number) => {
@@ -31,10 +33,16 @@ export default function useCourseInputs(
   };
 
   useEffect(() => {
-    if(courseInputs.length > 0 || !sportigoData ) return;
-
-    addCourseInput();
-  }, [sportigoData]);
+    if (!sportigoData) return;
+  
+    const numberOfCourses = reservations?.reservedCourses.length || 1;
+    if (courseInputs.length < numberOfCourses) {
+      for (let i = courseInputs.length; i < numberOfCourses; i++) {
+        addCourseInput();
+      }
+    }
+  }, [sportigoData, reservations?.reservedCourses.length]);
+  
 
   return { courseInputs, addCourseInput, removeCourseInput };
 }

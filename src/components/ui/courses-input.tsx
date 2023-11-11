@@ -6,7 +6,6 @@ import { IReservations } from "@/hooks/useRetreiveReservations";
 import { RetreivedReservationsContext } from "@/providers/RetreivedReservationsProvider";
 
 interface CoursesInputProps {
-  reservations?: IReservations;
   sportigoData: SportigoPlanningData | undefined;
   removeCourseInput: () => void;
   index: number;
@@ -39,7 +38,6 @@ export default function CoursesInput({
   return (
     <div className="flex flex-row gap-3 w-full">
       <Combobox
-        reservations={reservations}
         courses={courses}
         index={index}
       />

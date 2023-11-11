@@ -23,8 +23,6 @@ export async function GET(request: Request): Promise<Response> {
   try {
     const url = new URL(request.url);
     const token = url.searchParams.get("token");
-
-    console.log("token", token)
     if(!token) throw new Error('Token not found');
 
     const sportigoUser = await getUserByToken(token);
@@ -32,8 +30,6 @@ export async function GET(request: Request): Promise<Response> {
     if (!sportigoUser) {
       throw new Error('User not found');
     }
-
-    console.log("sportigoUser", sportigoUser)
 
     const userEmail = sportigoUser.member.email;
 

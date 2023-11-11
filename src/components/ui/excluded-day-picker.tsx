@@ -1,7 +1,8 @@
+import React, { useContext } from 'react'; // Ensure useContext is imported from React
 import { DateRange } from "react-day-picker";
 import { CalendarDateRangePicker } from "./calendar-date-range-picker";
 import { Button } from "./button";
-import useRetreiveReservations from "@/hooks/useRetreiveReservations";
+import { RetreivedReservationsContext } from "@/providers/RetreivedReservationsProvider";
 
 interface ExcludedDayPickerProps {
   index: number;
@@ -14,11 +15,11 @@ export default function ExcludedDayPicker({
   handleDateChange,
   removeExcludedDayPicker,
 }: ExcludedDayPickerProps) {
-  const { data: reservation } = useRetreiveReservations();
+  const {reservations} = useContext(RetreivedReservationsContext)
 
   const dateRange = {
-    from: reservation?.excludedDates[index]?.from ? new Date(reservation?.excludedDates[index].from || "") : undefined,
-    to: reservation?.excludedDates[index]?.to ? new Date(reservation?.excludedDates[index].to || "") : undefined,
+    from: reservations?.excludedDates[index]?.from ? new Date(reservations?.excludedDates[index].from || "") : undefined,
+    to: reservations?.excludedDates[index]?.to ? new Date(reservations?.excludedDates[index].to || "") : undefined,
   };
 
   return (

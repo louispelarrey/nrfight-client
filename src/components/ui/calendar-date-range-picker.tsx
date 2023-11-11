@@ -25,7 +25,6 @@ export function CalendarDateRangePicker({
   index: number;
 }) {
 
-  console.log(defaultValue)
   const [date, setDate] = React.useState<DateRange | undefined>();
 
   const handleSelect = (dateRange?: DateRange) => {

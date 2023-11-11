@@ -1,14 +1,18 @@
-"use client"
+"use client";
 
 import { useState, ReactNode, useCallback, useEffect, useContext } from "react";
 import { DateRange } from "react-day-picker";
 import ExcludedDayPicker from "@/components/ui/excluded-day-picker";
 import { FilterContext } from "@/providers/FilterProvider";
+import { RetreivedReservationsContext } from "@/providers/RetreivedReservationsProvider";
 
 // This hook manages the exclusion of specific date ranges.
 export default function useDateExcluder() {
-  const {excludedDates, setExcludedDates} = useContext(FilterContext);
-  const [excludedDaysPickers, setExcludedDaysPickers] = useState<ReactNode[]>([]);
+  const { reservations } = useContext(RetreivedReservationsContext);
+  const { excludedDates, setExcludedDates } = useContext(FilterContext);
+  const [excludedDaysPickers, setExcludedDaysPickers] = useState<ReactNode[]>(
+    []
+  );
 
   // Updates the date range for a specific ExcludedDayPicker.
   const handleDateChange = (index: number, dateRange: DateRange) => {
@@ -22,7 +26,9 @@ export default function useDateExcluder() {
     const updatedDates = excludedDates.filter((_, idx) => idx !== index);
     setExcludedDates(updatedDates);
 
-    const updatedPickers = excludedDaysPickers.filter((_, idx) => idx !== index);
+    const updatedPickers = excludedDaysPickers.filter(
+      (_, idx) => idx !== index
+    );
     setExcludedDaysPickers(updatedPickers);
   };
 
@@ -46,13 +52,18 @@ export default function useDateExcluder() {
 
   // Initialize with a default ExcludedDayPicker.
   useEffect(() => {
-    addExcludedDayPicker();
+    const nbInitialPickers = reservations?.excludedDates.length || 1;
+    if (excludedDaysPickers.length < nbInitialPickers) {
+      for (let i = 0; i < nbInitialPickers; i++) {
+        addExcludedDayPicker();
+      }
+    }
 
     return () => {
       setExcludedDates([]);
       setExcludedDaysPickers([]);
     };
-  }, []);
+  }, [reservations?.excludedDates.length]);
 
   return { excludedDates, excludedDaysPickers, addExcludedDayPicker };
 }

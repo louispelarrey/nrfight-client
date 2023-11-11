@@ -38,6 +38,7 @@ export function CalendarDateRangePicker({
     if (!defaultValue) return;
 
     setDate(defaultValue);
+    handleDateChange(index, defaultValue);
   }, [defaultValue]);
 
   return (

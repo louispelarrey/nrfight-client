@@ -19,18 +19,20 @@ export default function useCourseInputs(
   };
 
   const addCourseInput = () => {
-    const inputIndex = courseInputs.length;
-    const newInput = (
-      <CoursesInput
-        sportigoData={sportigoData}
-        key={inputIndex}
-        removeCourseInput={() => removeCourseInput(inputIndex)}
-        index={inputIndex}
-      />
-    );
-
-    setCourseInputs([...courseInputs, newInput]);
+    setCourseInputs(currentInputs => {
+      const inputIndex = currentInputs.length;
+      const newInput = (
+        <CoursesInput
+          sportigoData={sportigoData}
+          key={inputIndex}
+          removeCourseInput={() => removeCourseInput(inputIndex)}
+          index={inputIndex}
+        />
+      );
+      return [...currentInputs, newInput];
+    });
   };
+  
 
   useEffect(() => {
     if (!sportigoData) return;

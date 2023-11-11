@@ -1,13 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import useToken from "./useToken";
+import { DateRange } from "react-day-picker";
 
 interface IReservations {
   reservedCourses: string[];
-  excludedDates: string[];
+  excludedDates: DateRange[];
 }
 
 export default function useRetreiveReservations() {
-  const { token } = useToken();
 
   const { isFetching, error, data } = useQuery<IReservations>({
     queryKey: ["retreive-reservations"],

@@ -20,8 +20,6 @@ export default function ReservationResults() {
 
   const { excludedDates } = useContext(FilterContext);
 
-  if(isFetching) return <Skeleton className="w-full h-12" />;
-
   return (
     <div className="flex flex-col gap-3 h-full">
       <h2>Resultat</h2>

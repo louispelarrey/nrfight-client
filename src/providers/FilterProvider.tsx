@@ -1,5 +1,6 @@
 "use client"
 
+import useRetreiveReservations from '@/hooks/useRetreiveReservations';
 import { createContext, useState } from 'react';
 import { DateRange } from 'react-day-picker';
 
@@ -23,6 +24,7 @@ export const FilterContext = createContext({
 });
 
 export const FilterProvider = ({ children }: any) => {
+
   const [reservedCourses, setReservedCourses] = useState<string[]>([]);
   const [excludedDates, setExcludedDates] = useState<DateRange[]>([]);
 

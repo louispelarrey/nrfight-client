@@ -9,7 +9,6 @@ export default function ReservationIDCourse() {
   const { sportigoData, isFetching, error } = useContext(SportigoContext);
   const { courseInputs, addCourseInput } = useCourseInputs(sportigoData);
 
-  if (isFetching) return <Skeleton className="w-full h-12" />;
 
   if (error) return <p>Une erreur est survenue</p>;
 

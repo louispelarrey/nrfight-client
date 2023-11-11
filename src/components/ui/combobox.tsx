@@ -37,17 +37,13 @@ export default function Combobox({ courses, index }: IComboboxProps ) {
   const {reservedCourses, setReservedCourses} = useContext(FilterContext);
 
   useEffect(() => {
-    if (!value || value === "") return
+    if (!value || value === "") return;
 
-    const updatedReservedCourses = [...reservedCourses]
-    updatedReservedCourses[index] = value
-    setReservedCourses(updatedReservedCourses)
+    const updatedReservedCourses = [...reservedCourses];
+    updatedReservedCourses[index] = value;
+    setReservedCourses(updatedReservedCourses);
+}, [value, reservedCourses, setReservedCourses, index]);
 
-    return () => {
-      const updatedReservedCourses = reservedCourses.filter((_, idx) => idx !== index);
-      setReservedCourses(updatedReservedCourses);
-    }
-  }, [value])
 
   if (!courses) return <Skeleton className="w-full h-10" />
 

@@ -17,6 +17,7 @@ model User {
 
 model ReservedCourses {
   id  String  @default(cuid()) @id
+  sportigoId String
   user User @relation(fields: [userId], references: [id])
   userId String
 }

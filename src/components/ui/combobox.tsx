@@ -38,7 +38,6 @@ export default function Combobox({ courses, index }: IComboboxProps ) {
 
   useEffect(() => {
     if (!value || value === "") return
-    console.log("value", value)
 
     const updatedReservedCourses = [...reservedCourses]
     updatedReservedCourses[index] = value

@@ -7,12 +7,15 @@ import ReservationResults from "./ReservationResults";
 import { Protected } from "@/security/protected";
 import ReservationSave from "./ReservationSave";
 import useToken from "@/hooks/useToken";
-import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
+import useRetreiveReservations from "@/hooks/useRetreiveReservations";
 
 export default function Reservation() {
+
   const { token, logout } = useToken();
+  const { isFetching, error, data: retreivedReservations } = useRetreiveReservations()
   
+  console.log("test", retreivedReservations)
   useQuery({
     queryKey: ['member'],
     queryFn: async () => {

@@ -10,8 +10,6 @@ export default function useToken() {
   }, []);
 
   const saveToken = useCallback((token: string) => {
-    console.log("Saving token", token)
-
     localStorage.setItem("token", token);
     setTokenState(token);
   }, []);

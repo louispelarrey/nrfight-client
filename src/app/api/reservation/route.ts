@@ -18,6 +18,60 @@ interface IRequestBody {
   token: string;
 }
 
+// http://localhost:3000/api/reservation?token=7cc1086f46437f738c254c3632e1b9bf4bce26f4=
+export async function GET(request: Request): Promise<Response> {
+  try {
+    const url = new URL(request.url);
+    const token = url.searchParams.get("token");
+
+    console.log("token", token)
+    if(!token) throw new Error('Token not found');
+
+    const sportigoUser = await getUserByToken(token);
+
+    if (!sportigoUser) {
+      throw new Error('User not found');
+    }
+
+    console.log("sportigoUser", sportigoUser)
+
+    const userEmail = sportigoUser.member.email;
+
+    const user = await prisma.user.findUnique({
+      where: { email: userEmail },
+      select: {
+        reservedCourses: {
+          select: {
+            sportigoId: true,
+          },
+        },
+        excludedDates: {
+          select: {
+            from: true,
+            to: true,
+          },
+        }
+      },
+    });
+
+    if (!user) {
+      throw new Error('User not found in database');
+    }
+
+    return new Response(
+      JSON.stringify({
+        reservedCourses: user.reservedCourses,
+        excludedDates: user.excludedDates,
+      }),
+      { status: 200 }
+    );
+  } catch (error) {
+    console.log("API ERROR", error);
+
+    return new Response("error", { status: 500 });
+  }
+}
+
 export async function POST(request: Request): Promise<Response> {
   try {
     const { excludedDates, reservedCourses, token }: IRequestBody =
@@ -59,63 +113,73 @@ async function saveReservationToDb(
   excludedDates: Array<DateRange>
 ): Promise<void> {
   const sportigoUser = await getUserByToken(token);
-  const userEmail = sportigoUser.member.email;
 
   if (!sportigoUser) {
     throw new Error('User not found');
   }
 
-  let upsertQuery = {
-    reservedCourses: {
-      create: reservedCourses.map((course) => ({
-        dayNumber: course.dayNumber,
-        hour: course.hour,
-        // Add other relevant fields here
-      })),
-    },
-  };
+  const userEmail = sportigoUser.member.email;
 
+  const user = await prisma.user.findUnique({
+    where: { email: userEmail },
+    select: { id: true }
+  });
+
+  if (!user) {
+    throw new Error('User not found in database');
+  }
+
+  const userId = user.id;
+
+  // Filter valid excluded dates
   const validExcludedDates = excludedDates.filter(dateRange => 
     isValidDate(dateRange.from) && isValidDate(dateRange.to)
   );
 
-  if (validExcludedDates.length > 0) {
-    upsertQuery = {
-      ...upsertQuery,
-      excludedDates: {
-        create: validExcludedDates.map((dateRange) => ({
-          from: new Date(dateRange.from),
-          to: new Date(dateRange.to),
-        })),
-      }
-    } as any
+  // Start a transaction
+  const transaction = [];
+
+  // First, delete existing reserved courses and excluded dates
+  transaction.push(prisma.reservedCourses.deleteMany({ where: { userId } }));
+  transaction.push(prisma.excludedDates.deleteMany({ where: { userId } }));
+
+  // Then, create new reserved courses and excluded dates
+  if (reservedCourses.length > 0) {
+    transaction.push(
+      prisma.user.update({
+        where: { id: userId },
+        data: {
+          reservedCourses: {
+            create: reservedCourses.map((course) => ({
+              sportigoId: course.id,
+              // Add other fields here
+            }) as any),
+          },
+        },
+      }),
+    );
   }
 
-  console.log('upsertQuery', upsertQuery)
-    
-  await prisma.user.upsert({
-    where: {
-      email: userEmail,
-    },
-    update: upsertQuery,
-    create: {
-      email: userEmail,
-      reservedCourses: {
-        create: reservedCourses.map((course) => ({
-          dayNumber: course.dayNumber,
-          hour: course.hour,
-        })),
-      },
-      // Here, ensure that excludedDates is also handled correctly in the create block
-      excludedDates: validExcludedDates ? {
-        create: validExcludedDates.map((dateRange) => ({
-          from: new Date(dateRange.from),
-          to: new Date(dateRange.to),
-        })),
-      } : undefined,
-    },
-  });
+  if (validExcludedDates.length > 0) {
+    transaction.push(
+      prisma.user.update({
+        where: { id: userId },
+        data: {
+          excludedDates: {
+            create: validExcludedDates.map((dateRange) => ({
+              from: new Date(dateRange.from),
+              to: new Date(dateRange.to),
+            })),
+          },
+        },
+      }),
+    );
+  }
+
+  // Execute the transaction
+  await prisma.$transaction(transaction);
 }
+
 
 function isValidDate(dateString: string): boolean {
   const date = new Date(dateString);

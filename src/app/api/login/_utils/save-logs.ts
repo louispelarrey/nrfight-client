@@ -1,12 +1,18 @@
 import prisma from "@/lib/prisma";
 import bcrypt from "bcrypt";
 
-export default async function saveLogs(email: string, plainPassword: string): Promise<void> {
-
+export default async function saveLogs(
+  email: string,
+  plainPassword: string
+): Promise<void> {
   const hashedPassword = await hashPassword(plainPassword);
 
-  prisma.user.create({
-    data: {
+  await prisma.user.upsert({
+    where: { email },
+    update: {
+      password: hashedPassword,
+    },
+    create: {
       email,
       password: hashedPassword,
     },
@@ -16,4 +22,4 @@ export default async function saveLogs(email: string, plainPassword: string): Pr
 const hashPassword = async (plainPassword: string): Promise<string> => {
   const salt = await bcrypt.genSalt(10);
   return bcrypt.hash(plainPassword, salt);
-}
+};

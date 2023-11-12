@@ -73,6 +73,8 @@ async function saveReservationToDb(
           reservedCourses: {
             create: reservedCourses.map((course) => ({
               sportigoId: course.id,
+              dayNumber: course.dayNumber,
+              hour: course.hour,
               // Add other fields here
             }) as any),
           },

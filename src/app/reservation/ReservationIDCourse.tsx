@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
-import useCourseInputs from "@/hooks/useCourseInputs";
+import useCourseInputs from "@/hooks/useComboboxValues";
 import { SportigoContext } from "@/providers/SportigoDataProvider";
-import React, { useContext } from "react";
+import React, { useContext, useMemo } from "react";
 import CoursesInput from "@/components/ui/courses-input";
 import transformSportigoDataToEvent from "@/lib/transform-sportigo-data-to-event";
 
@@ -10,7 +10,11 @@ export default function ReservationIDCourse() {
     useCourseInputs();
 
   const { sportigoData } = useContext(SportigoContext);
-  const courses = transformSportigoDataToEvent(sportigoData);
+  
+  const courses = useMemo(() => {
+    if (!sportigoData) return;
+    return transformSportigoDataToEvent(sportigoData);
+  }, [sportigoData]);
 
   return (
     <div className="flex flex-col gap-3">

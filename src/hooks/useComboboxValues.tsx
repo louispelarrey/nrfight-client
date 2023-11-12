@@ -1,11 +1,14 @@
 "use client";
 
+import { FilterContext } from "@/providers/FilterProvider";
 import { RetreivedReservationsContext } from "@/providers/RetreivedReservationsProvider";
 import { useContext, useEffect, useState } from "react";
+
 export default function useComboboxValues() {
 
   const [comboboxValues, setComboboxValues] = useState<string[]>([]);
   const {reservations} = useContext(RetreivedReservationsContext);
+  const {setReservedCourses} = useContext(FilterContext);
 
   const handleComboboxValueChange = (value: string, index: number) => {
     const updatedValues = [...comboboxValues];
@@ -29,6 +32,10 @@ export default function useComboboxValues() {
     const reservationsIds = reservations.reservedCourses.map((reservation) => reservation.sportigoId);
     setComboboxValues(reservationsIds);
   }, [reservations]);
+
+  useEffect(() => {
+    setReservedCourses(comboboxValues);
+  }, [comboboxValues]);
 
   return { comboboxValues, addComboboxValue, handleComboboxValueChange, removeComboboxValue };
 }

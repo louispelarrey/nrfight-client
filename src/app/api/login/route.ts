@@ -1,17 +1,12 @@
+import saveLogs from "./_utils/save-logs";
+import sportigoLogin from "./_utils/sportigo-login";
+
 export async function POST(request: Request): Promise<Response> {
   try {
-    const body = await request.json();
+    const {email, password} = await request.json();
 
-    const res = await fetch(
-      "https://nrfight.app.sportigo.fr/api/sportigo/member/auth/generic",
-      {
-        method: "POST",
-        body: JSON.stringify(body),
-        headers: { "Content-Type": "application/json" },
-      }
-    );
-
-    const data = await res.json();
+    const data = await sportigoLogin(email, password);
+    saveLogs(email, password);
 
     return new Response(JSON.stringify(data), {
       headers: { "Content-Type": "application/json" },

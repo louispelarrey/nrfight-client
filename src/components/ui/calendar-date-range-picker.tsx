@@ -24,24 +24,20 @@ export function CalendarDateRangePicker({
 }) {
 
   function handleSelect(range: DateRange | undefined, selectedDay: Date) {
-    if (!range) return;
-
-    if (range.from && range.to) {
-      if (range.from > range.to) {
-        range.to = range.from;
-        range.from = selectedDay;
-      }
-    } else {
-      if (range.from && range.from > selectedDay) {
-        range.to = range.from;
-        range.from = selectedDay;
-      } else {
-        range.to = selectedDay;
-      }
+    // Check if only one date is selected (start or end)
+    if (range && (!range.from || !range.to)) {
+      // If only one date is selected, set both from and to as the same date
+      const updatedRange = { from: selectedDay, to: selectedDay };
+      handleDateChange(index, updatedRange);
+      return;
     }
-
-    handleDateChange(index, range);
+  
+    // Proceed as usual if both dates are selected
+    if (range) {
+      handleDateChange(index, range);
+    }
   }
+  
 
   return (
     <div className="grid gap-2 w-100 grow">

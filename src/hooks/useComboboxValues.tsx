@@ -6,36 +6,31 @@ import { useContext, useEffect, useState } from "react";
 
 export default function useComboboxValues() {
 
-  const [comboboxValues, setComboboxValues] = useState<string[]>([]);
   const {reservations} = useContext(RetreivedReservationsContext);
-  const {setReservedCourses} = useContext(FilterContext);
+  const {reservedCourses, setReservedCourses} = useContext(FilterContext);
 
-  const handleComboboxValueChange = (value: string, index: number) => {
-    const updatedValues = [...comboboxValues];
+  const handleReservationChange = (value: string, index: number) => {
+    const updatedValues = [...reservedCourses];
     updatedValues[index] = value;
-    setComboboxValues(updatedValues);
+    setReservedCourses(updatedValues);
   };
 
-  const removeComboboxValue = (index: number) => {
-    const updatedValues = [...comboboxValues];
+  const deleteReservation = (index: number) => {
+    const updatedValues = [...reservedCourses];
     updatedValues.splice(index, 1);
-    setComboboxValues(updatedValues);
+    setReservedCourses(updatedValues);
   };
 
-  const addComboboxValue = () => { 
-    const newValues = comboboxValues.length === 0 ? [""] : [...comboboxValues, ""];
-    setComboboxValues(newValues);
+  const addReservation = () => { 
+    const newValues = reservedCourses.length === 0 ? [""] : [...reservedCourses, ""];
+    setReservedCourses(newValues);
   };
 
   useEffect(() => {
     if (!reservations) return;
     const reservationsIds = reservations.reservedCourses.map((reservation) => reservation.sportigoId);
-    setComboboxValues(reservationsIds);
+    setReservedCourses(reservationsIds);
   }, [reservations]);
 
-  useEffect(() => {
-    setReservedCourses(comboboxValues);
-  }, [comboboxValues]);
-
-  return { comboboxValues, addComboboxValue, handleComboboxValueChange, removeComboboxValue };
+  return { reservedCourses, handleReservationChange, deleteReservation, addReservation };
 }

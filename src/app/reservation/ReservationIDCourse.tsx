@@ -6,11 +6,11 @@ import CoursesInput from "@/components/ui/courses-input";
 import transformSportigoDataToEvent from "@/lib/transform-sportigo-data-to-event";
 
 export default function ReservationIDCourse() {
-  const { comboboxValues, addComboboxValue, handleComboboxValueChange, removeComboboxValue } =
+  const { reservedCourses, handleReservationChange, deleteReservation, addReservation } =
     useCourseInputs();
 
   const { sportigoData } = useContext(SportigoContext);
-  
+
   const courses = useMemo(() => {
     if (!sportigoData) return;
     return transformSportigoDataToEvent(sportigoData);
@@ -20,17 +20,17 @@ export default function ReservationIDCourse() {
     <div className="flex flex-col gap-3">
       <h2>Cours à réserver</h2>
       <div className="flex flex-row gap-3 flex-wrap">
-        {comboboxValues.map((comboboxValue, index) => (
+        {reservedCourses.map((reservedCourses, index) => (
           <CoursesInput
-            value={comboboxValue}
-            handleValueChange={handleComboboxValueChange}
+            value={reservedCourses}
+            handleValueChange={handleReservationChange}
             courses={courses}
             key={index}
-            removeComboboxValue={() => removeComboboxValue(index)}
+            removeComboboxValue={() => deleteReservation(index)}
             index={index}
           />
         ))}
-        <Button variant="secondary" className="w-full" onClick={addComboboxValue}>
+        <Button variant="secondary" className="w-full" onClick={addReservation}>
           Ajouter des cours
         </Button>
       </div>

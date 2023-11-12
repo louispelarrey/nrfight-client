@@ -16,7 +16,7 @@ export async function GET(request: Request): Promise<Response> {
       const sportigoUser = await sportigoLogin(user.email, user.password);
       const token = sportigoUser.member.appToken
 
-      data = await reserveCourses(token, user.reservedCourses, user.excludedDates);
+      data = await reserveCourses(user.excludedDates, user.reservedCourses, token);
     }
 
     return new Response(JSON.stringify(data), {

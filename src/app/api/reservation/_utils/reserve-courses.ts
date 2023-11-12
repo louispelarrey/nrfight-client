@@ -2,12 +2,12 @@ import prisma from "@/lib/prisma";
 import getUserByToken from "../../member/_get-user/get-user-by-token";
 
 export interface DateRange {
-  from: string;
-  to: string;
+  from: Date;
+  to: Date;
 }
 
 export interface IReservedCourse {
-  id: number;
+  id: string;
   dayNumber: number;
   hour: string;
 }
@@ -54,7 +54,7 @@ async function saveReservationToDb(
 
   // Filter valid excluded dates
   const validExcludedDates = excludedDates.filter(dateRange => 
-    isValidDate(dateRange.from) && isValidDate(dateRange.to)
+    isValidDate(dateRange.from.toString()) && isValidDate(dateRange.to.toString())
   );
 
   // Start a transaction

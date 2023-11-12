@@ -1,5 +1,6 @@
 import sportigoLogin from "../../login/_utils/sportigo-login";
 import { reserveCourses } from "../../reservation/_utils/reserve-courses";
+import prisma from "@/lib/prisma";
 
 export async function GET(request: Request): Promise<Response> {
   try {
@@ -12,8 +13,7 @@ export async function GET(request: Request): Promise<Response> {
 
     let data: unknown = [];
     for(const user of users) {
-      const {email, password} = user;
-      const sportigoUser = await sportigoLogin(email, password);
+      const sportigoUser = await sportigoLogin(user.email, user.password);
       const token = sportigoUser.member.appToken
 
       data = await reserveCourses(token, user.reservedCourses, user.excludedDates);

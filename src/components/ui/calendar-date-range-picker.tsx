@@ -1,45 +1,47 @@
 import * as React from "react";
 import { CalendarIcon } from "@radix-ui/react-icons";
-import { addDays, format } from "date-fns";
+import { format } from "date-fns";
 import { DateRange } from "react-day-picker";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
-import { Label } from "@/components/ui/label";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { fr } from "date-fns/locale";
-import { useEffect } from "react";
 
 export function CalendarDateRangePicker({
-  defaultValue,
+  value,
   handleDateChange,
   index,
 }: {
-  defaultValue?: DateRange;
+  value?: DateRange;
   handleDateChange: (index: number, dateRange: DateRange) => void;
   index: number;
 }) {
 
-  const [date, setDate] = React.useState<DateRange | undefined>();
+  function handleSelect(range: DateRange | undefined, selectedDay: Date) {
+    if (!range) return;
 
-  const handleSelect = (dateRange?: DateRange) => {
-    if (!dateRange) return;
+    if (range.from && range.to) {
+      if (range.from > range.to) {
+        range.to = range.from;
+        range.from = selectedDay;
+      }
+    } else {
+      if (range.from && range.from > selectedDay) {
+        range.to = range.from;
+        range.from = selectedDay;
+      } else {
+        range.to = selectedDay;
+      }
+    }
 
-    setDate(dateRange);
-    handleDateChange(index, dateRange);
-  };
-
-  useEffect(() => {
-    if (!defaultValue) return;
-
-    setDate(defaultValue);
-    handleDateChange(index, defaultValue);
-  }, [defaultValue]);
+    handleDateChange(index, range);
+  }
 
   return (
     <div className="grid gap-2 w-100 grow">
@@ -50,18 +52,18 @@ export function CalendarDateRangePicker({
             variant={"outline"}
             className={cn(
               "justify-start text-left font-normal",
-              !date && "text-muted-foreground"
+              !value && "text-muted-foreground"
             )}
           >
             <CalendarIcon className="mr-2 h-4 w-4" />
-            {date?.from ? (
-              date.to ? (
+            {value?.from ? (
+              value.to ? (
                 <>
-                  {format(date.from, "LLL dd, y")} -{" "}
-                  {format(date.to, "LLL dd, y")}
+                  {format(value.from, "LLL dd, y")} -{" "}
+                  {format(value.to, "LLL dd, y")}
                 </>
               ) : (
-                format(date.from, "LLL dd, y")
+                format(value.from, "LLL dd, y")
               )
             ) : (
               <span>Sélectionner une date</span>
@@ -72,8 +74,8 @@ export function CalendarDateRangePicker({
           <Calendar
             initialFocus
             mode="range"
-            defaultMonth={date?.from}
-            selected={date}
+            defaultMonth={value?.from}
+            selected={value}
             onSelect={handleSelect}
             numberOfMonths={1}
             locale={fr}

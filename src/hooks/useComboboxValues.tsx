@@ -1,5 +1,3 @@
-"use client";
-
 import { FilterContext } from "@/providers/FilterProvider";
 import { RetreivedReservationsContext } from "@/providers/RetreivedReservationsProvider";
 import { useContext, useEffect, useState } from "react";
@@ -27,10 +25,11 @@ export default function useComboboxValues() {
   };
 
   useEffect(() => {
-    if (!reservations) return;
+    if (!reservations?.reservedCourses || reservations?.reservedCourses.length === 0) return;
+
     const reservationsIds = reservations.reservedCourses.map((reservation) => reservation.sportigoId);
     setReservedCourses(reservationsIds);
-  }, [reservations]);
+  }, [reservations?.reservedCourses]);
 
   return { reservedCourses, handleReservationChange, deleteReservation, addReservation };
 }

@@ -8,7 +8,6 @@ import transformSportigoDataToEvent from "@/lib/transform-sportigo-data-to-event
 export default function ReservationIDCourse() {
   const { reservedCourses, handleReservationChange, deleteReservation, addReservation } =
     useCourseInputs();
-
   const { sportigoData } = useContext(SportigoContext);
 
   const courses = useMemo(() => {

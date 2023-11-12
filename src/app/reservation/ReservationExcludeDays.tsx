@@ -1,15 +1,24 @@
 import { Button } from "@/components/ui/button";
-import useDateExcluder from "@/hooks/useDateExcluder";
+import ExcludedDayPicker from "@/components/ui/excluded-day-picker";
+import useDateExcluder from "@/hooks/useExcludedDates";
 
 export default function ReservationExcludeDays() {
 
-  const { excludedDaysPickers, addExcludedDayPicker } = useDateExcluder();
-    
+  const { excludedDates, handleDateChange, addDate, removeDate } = useDateExcluder();
+  
   return (
     <div className="flex flex-col gap-3">
       <h2>Prendre des vacances (jours où aucune réservation ne compte)</h2>
-      {excludedDaysPickers}
-      <Button variant="secondary" onClick={addExcludedDayPicker}>
+      {excludedDates.map((dateRange, index) => (
+        <ExcludedDayPicker
+          key={index}
+          value={dateRange}
+          index={index}
+          handleDateChange={handleDateChange}
+          removeDate={removeDate}
+        />
+      ))}
+      <Button variant="secondary" onClick={addDate}>
         Ajouter des jours à exclure
       </Button>
     </div>

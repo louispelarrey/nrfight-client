@@ -58,11 +58,6 @@ export default function useDateExcluder() {
         addExcludedDayPicker();
       }
     }
-
-    return () => {
-      setExcludedDates([]);
-      setExcludedDaysPickers([]);
-    };
   }, [reservations?.excludedDates.length]);
 
   return { excludedDates, excludedDaysPickers, addExcludedDayPicker };

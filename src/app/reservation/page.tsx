@@ -30,6 +30,7 @@ export default function Reservation() {
       return res.json();
     },
     enabled: !!token,
+    retry: false,
   })
   
 

@@ -1,49 +1,34 @@
-"use client"
+"use client";
 
-import { useState, ReactNode, useCallback, useEffect, useContext } from "react";
-import CoursesInput from "@/components/ui/courses-input";
-import { SportigoPlanningData } from "./useSportigoData";
-import { FilterContext } from "@/providers/FilterProvider";
 import { RetreivedReservationsContext } from "@/providers/RetreivedReservationsProvider";
+import { useContext, useEffect, useState } from "react";
+export default function useComboboxValues() {
 
-export default function useCourseInputs(
-  sportigoData: SportigoPlanningData | undefined
-) {
+  const [comboboxValues, setComboboxValues] = useState<string[]>([]);
+  const {reservations} = useContext(RetreivedReservationsContext);
 
-  const { reservations } = useContext(RetreivedReservationsContext);  
-  const [courseInputs, setCourseInputs] = useState<ReactNode[]>([]);
-
-  const removeCourseInput = (index: number) => {
-    const updatedInputs = courseInputs.filter((_, idx) => idx !== index);
-    setCourseInputs(updatedInputs);
+  const handleComboboxValueChange = (value: string, index: number) => {
+    const updatedValues = [...comboboxValues];
+    updatedValues[index] = value;
+    setComboboxValues(updatedValues);
   };
 
-  const addCourseInput = () => {
-    setCourseInputs((prev) => {
-      const inputIndex = prev.length;
-      const newInput = (
-        <CoursesInput
-          sportigoData={sportigoData}
-          key={inputIndex}
-          removeCourseInput={() => removeCourseInput(inputIndex)}
-          index={inputIndex}
-        />
-      );
-      return [...prev, newInput];
-    });
+  const removeComboboxValue = (index: number) => {
+    const updatedValues = [...comboboxValues];
+    updatedValues.splice(index, 1);
+    setComboboxValues(updatedValues);
+  };
+
+  const addComboboxValue = () => { 
+    const newValues = comboboxValues.length === 0 ? [""] : [...comboboxValues, ""];
+    setComboboxValues(newValues);
   };
 
   useEffect(() => {
-    if (!sportigoData) return;
-  
-    const numberOfCourses = reservations?.reservedCourses.length || 1;
-    if (courseInputs.length < numberOfCourses) {
-      for (let i = courseInputs.length; i < numberOfCourses; i++) {
-        addCourseInput();
-      }
-    }
-  }, [sportigoData, reservations?.reservedCourses.length]);
-  
+    if (!reservations) return;
+    const reservationsIds = reservations.reservedCourses.map((reservation) => reservation.sportigoId);
+    setComboboxValues(reservationsIds);
+  }, [reservations]);
 
-  return { courseInputs, addCourseInput, removeCourseInput };
+  return { comboboxValues, addComboboxValue, handleComboboxValueChange, removeComboboxValue };
 }

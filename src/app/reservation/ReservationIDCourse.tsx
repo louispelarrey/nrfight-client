@@ -2,21 +2,31 @@ import { Button } from "@/components/ui/button";
 import useCourseInputs from "@/hooks/useCourseInputs";
 import { SportigoContext } from "@/providers/SportigoDataProvider";
 import React, { useContext } from "react";
-import { Skeleton } from "@/components/ui/skeleton";
+import CoursesInput from "@/components/ui/courses-input";
+import transformSportigoDataToEvent from "@/lib/transform-sportigo-data-to-event";
 
 export default function ReservationIDCourse() {
-    
-  const { sportigoData, isFetching, error } = useContext(SportigoContext);
-  const { courseInputs, addCourseInput } = useCourseInputs(sportigoData);
-  
-  if (error) return <p>Une erreur est survenue</p>;
+  const { comboboxValues, addComboboxValue, handleComboboxValueChange, removeComboboxValue } =
+    useCourseInputs();
+
+  const { sportigoData } = useContext(SportigoContext);
+  const courses = transformSportigoDataToEvent(sportigoData);
 
   return (
     <div className="flex flex-col gap-3">
       <h2>Cours à réserver</h2>
       <div className="flex flex-row gap-3 flex-wrap">
-        {courseInputs}
-        <Button variant="secondary" className="w-full" onClick={addCourseInput}>
+        {comboboxValues.map((comboboxValue, index) => (
+          <CoursesInput
+            value={comboboxValue}
+            handleValueChange={handleComboboxValueChange}
+            courses={courses}
+            key={index}
+            removeComboboxValue={() => removeComboboxValue(index)}
+            index={index}
+          />
+        ))}
+        <Button variant="secondary" className="w-full" onClick={addComboboxValue}>
           Ajouter des cours
         </Button>
       </div>

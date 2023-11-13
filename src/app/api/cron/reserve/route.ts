@@ -28,6 +28,7 @@ export async function GET(): Promise<Response> {
         user.reservedCourses,
         token
       );
+      
       data.push({ email: user.email, nbReservedCourses: reservedCourses.length });
     }
 

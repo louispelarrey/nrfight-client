@@ -7,7 +7,7 @@ export interface DateRange {
 }
 
 export interface IReservedCourse {
-  id: string;
+  sportigoId: string;
   dayNumber: number;
   hour: string;
 }
@@ -72,7 +72,7 @@ async function saveReservationToDb(
         data: {
           reservedCourses: {
             create: reservedCourses.map((course) => ({
-              sportigoId: course.id,
+              sportigoId: course.sportigoId,
               dayNumber: course.dayNumber,
               hour: course.hour,
               // Add other fields here
@@ -123,7 +123,7 @@ async function reserveDate(
         "Sportigo-Token": token,
       },
       body: JSON.stringify({
-        eventId: `_generated:${reservedCourse.id}:${reservedDay.getFullYear()}${
+        eventId: `_generated:${reservedCourse.sportigoId}:${reservedDay.getFullYear()}${
           reservedDay.getMonth() + 1
         }${reservedDay.getDate()}`,
         date: `${reservedDay.getFullYear()}-${

@@ -1,8 +1,14 @@
+import { decryptPassword } from "../../login/_utils/encrypt-password";
 import sportigoLogin from "../../login/_utils/sportigo-login";
 import { reserveCourses } from "../../reservation/_utils/reserve-courses";
 import prisma from "@/lib/prisma";
 
-export async function GET(request: Request): Promise<Response> {
+type Data = {
+  email: string;
+  nbReservedCourses: number;
+}[]
+
+export async function GET(): Promise<Response> {
   try {
     const users = await prisma.user.findMany({
       include: {
@@ -11,19 +17,26 @@ export async function GET(request: Request): Promise<Response> {
       },
     });
 
-    let data: unknown = [];
-    for(const user of users) {
-      const sportigoUser = await sportigoLogin(user.email, user.password);
-      const token = sportigoUser.member.appToken
+    let data: Data = [];
+    for (const user of users) {
+      const decryptedPassword = await decryptPassword(user.password);
+      const sportigoUser = await sportigoLogin(user.email, decryptedPassword);
+      console.log(user.email, sportigoUser.member.appToken, decryptedPassword);
+      const token = sportigoUser.member.appToken;
 
-      data = await reserveCourses(user.excludedDates, user.reservedCourses, token);
+      const reservedCourses = await reserveCourses(
+        user.excludedDates,
+        user.reservedCourses,
+        token
+      );
+      data.push({ email: user.email, nbReservedCourses: reservedCourses.length });
     }
 
     return new Response(JSON.stringify(data), {
       headers: { "Content-Type": "application/json" },
     });
   } catch (error) {
-    console.log("API ERROR", error);
+    console.log("API ERROR /cron/reserve", error);
 
     return new Response("error", { status: 500 });
   }

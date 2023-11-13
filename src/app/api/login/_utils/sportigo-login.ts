@@ -8,6 +8,7 @@ export default async function sportigoLogin(email: string, password: string) {
         password,
       }),
       headers: { "Content-Type": "application/json" },
+      cache: "no-cache",
     }
   );
 

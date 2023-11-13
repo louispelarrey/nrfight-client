@@ -7,7 +7,7 @@ export default function getInfosFromSportigoData(
   const info: {
     dayNumber: number;
     hour: string;
-    id: string;
+    sportigoId: string;
   }[] = [];
 
   // Iterate through the events in SportigoPlanningData
@@ -27,7 +27,7 @@ export default function getInfosFromSportigoData(
       info.push({
         dayNumber,
         hour,
-        id: String(event.id),
+        sportigoId: String(event.id),
       });
     }
   });

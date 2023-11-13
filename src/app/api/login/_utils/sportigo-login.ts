@@ -7,9 +7,14 @@ export default async function sportigoLogin(email: string, password: string) {
         email,
         password,
       }),
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json",
+      'Vercel-CDN-Cache-Control': 'max-age=0',
+      'CDN-Cache-Control': 'max-age=0',
       cache: "no-cache",
-      next: { revalidate: 0 }
+      'Cache-Control': 'no-cache',
+     },
+      cache: "no-cache",
+      next: { revalidate: 0 },
     }
   );
 

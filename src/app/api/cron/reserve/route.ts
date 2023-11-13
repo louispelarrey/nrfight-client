@@ -37,6 +37,6 @@ export async function GET(): Promise<Response> {
   } catch (error) {
     console.log("API ERROR /cron/reserve", error);
 
-    return new Response("error", { status: 500 });
+    return new Response("error" + error, { status: 500 });
   }
 }

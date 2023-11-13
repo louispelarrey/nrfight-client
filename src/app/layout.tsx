@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
-import { Inter } from 'next/font/google'
+import { Inter as FontSans } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { PropsWithChildren } from "react";
 import { ThemeProvider } from "@/components/theme-provider";
 import Providers from "./providers";
 
-export const inter = Inter({
+export const fontSans = FontSans({
   subsets: ["latin"],
+  variable: "--font-sans",
 });
 
 export const metadata: Metadata = {
@@ -22,7 +23,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased",
-          inter
+          fontSans.variable
         )}
       >
         <ThemeProvider

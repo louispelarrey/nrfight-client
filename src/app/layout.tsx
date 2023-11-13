@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
-import { Inter as FontSans } from "next/font/google";
+import { Inter } from 'next/font/google'
 import { cn } from "@/lib/utils";
 import { PropsWithChildren } from "react";
 import { ThemeProvider } from "@/components/theme-provider";
 import Providers from "./providers";
 
-export const fontSans = FontSans({
+export const fontSans = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
 });

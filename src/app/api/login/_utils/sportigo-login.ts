@@ -22,7 +22,5 @@ export default async function sportigoLogin(email: string, password: string) {
     }
   );
 
-  revalidatePath("/api/login/sportigo-login");
-
   return await res.json();
 }

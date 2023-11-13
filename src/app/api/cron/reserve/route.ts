@@ -6,7 +6,7 @@ import prisma from "@/lib/prisma";
 type Data = {
   email: string;
   nbReservedCourses: number;
-}[]
+}[];
 
 export async function GET(): Promise<Response> {
   try {
@@ -28,12 +28,21 @@ export async function GET(): Promise<Response> {
         user.reservedCourses,
         token
       );
-      
-      data.push({ email: user.email, nbReservedCourses: reservedCourses.length });
+
+      data.push({
+        email: user.email,
+        nbReservedCourses: reservedCourses.length,
+      });
     }
 
     return new Response(JSON.stringify(data), {
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "Cache-Control": "no-cache",
+        //disable vercel cache
+        "Surrogate-Control": "no-store",
+        cache: "no-cache",
+      },
     });
   } catch (error) {
     console.log("API ERROR /cron/reserve", error);

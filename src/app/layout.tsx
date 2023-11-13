@@ -7,7 +7,7 @@ import { PropsWithChildren } from "react";
 import { ThemeProvider } from "@/components/theme-provider";
 import Providers from "./providers";
 
-export const fontSans = FontSans({
+const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
 });

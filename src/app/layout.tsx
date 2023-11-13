@@ -7,7 +7,7 @@ import { PropsWithChildren } from "react";
 import { ThemeProvider } from "@/components/theme-provider";
 import Providers from "./providers";
 
-export const fontSans = Inter({
+export const inter = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
 });
@@ -23,7 +23,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased",
-          fontSans.variable
+          inter.variable
         )}
       >
         <ThemeProvider

@@ -8,6 +8,8 @@ type Data = {
   nbReservedCourses: number;
 }[];
 
+export const dynamic = 'force-dynamic'
+
 export async function GET(): Promise<Response> {
   try {
     const users = await prisma.user.findMany({

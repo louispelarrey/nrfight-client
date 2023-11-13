@@ -2,11 +2,5 @@
   "crons": [{
     "path": "/api/cron/reserve",
     "schedule": "1 18 * * *"
-  }],
-  "routes": [
-    {
-      "src": "src/app/api/login/_utils/sportigo-login.ts",
-      "headers": { "Cache-Control": "s-maxage=0" }
-    }
-  ]
+  }]
 }

@@ -1,5 +1,3 @@
-import { revalidatePath } from "next/cache";
-
 export default async function sportigoLogin(email: string, password: string) {
   const res = await fetch(
     "https://nrfight.app.sportigo.fr/api/sportigo/member/auth/generic",
@@ -11,14 +9,7 @@ export default async function sportigoLogin(email: string, password: string) {
         //generate a random string
         device: Math.random().toString(36).substring(7),
       }),
-      headers: { "Content-Type": "application/json",
-      'Vercel-CDN-Cache-Control': 'max-age=0',
-      'CDN-Cache-Control': 'max-age=0',
       cache: "no-cache",
-      'Cache-Control': 'no-cache',
-     },
-      cache: "no-cache",
-      next: { revalidate: 0 },
     }
   );
 

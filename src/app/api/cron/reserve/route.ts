@@ -21,7 +21,6 @@ export async function GET(): Promise<Response> {
     for (const user of users) {
       const decryptedPassword = await decryptPassword(user.password);
       const sportigoUser = await sportigoLogin(user.email, decryptedPassword);
-      console.log(user.email, sportigoUser.member.appToken, decryptedPassword);
       const token = sportigoUser.member.appToken;
 
       const reservedCourses = await reserveCourses(

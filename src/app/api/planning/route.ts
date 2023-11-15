@@ -1,7 +1,5 @@
-import { SportigoPlanningData } from "@/hooks/useSportigoData"
-
-export async function GET() {
-  const res = await fetch("https://nrfight.app.sportigo.fr/api/sportigo/planning?room=160", {
+export async function GET(request: Request): Promise<Response> {
+  const res = await fetch(`https://nrfight.app.sportigo.fr/api/sportigo/planning`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

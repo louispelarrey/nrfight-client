@@ -8,6 +8,7 @@ import { Protected } from "@/security/protected";
 import ReservationSave from "./ReservationSave";
 import useToken from "@/hooks/useToken";
 import { useQuery } from "@tanstack/react-query";
+import { Toaster } from 'sonner'
 
 export default function Reservation() {
 
@@ -42,6 +43,7 @@ export default function Reservation() {
         </h1>
 
         <div className="flex flex-col gap-8 m-8">
+          <Toaster />
           <ReservationIDCourse />
           <Separator />
           <ReservationExcludeDays />

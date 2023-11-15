@@ -1,6 +1,7 @@
 import { DateRange } from "react-day-picker";
 import { CalendarDateRangePicker } from "./calendar-date-range-picker";
 import { Button } from "./button";
+import DeleteButton from "./delete-button";
 
 interface ExcludedDayPickerProps {
   value: DateRange;
@@ -25,9 +26,7 @@ export default function ExcludedDayPicker({
           handleDateChange={handleDateChange}
         />
       </div>
-      <Button variant="destructive" onClick={() => removeDate(index)}>
-        Supprimer
-      </Button>
+      <DeleteButton removeFunction={() => removeDate(index)} />
     </div>
   );
 }

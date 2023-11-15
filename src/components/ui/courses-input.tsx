@@ -1,5 +1,7 @@
 import Combobox from "./combobox";
 import { Button } from "./button";
+import { Trash2Icon } from "lucide-react";
+import DeleteButton from "./delete-button";
 
 export interface ICourse {
   value: string;
@@ -31,9 +33,7 @@ export default function CoursesInput({
         courses={courses}
         index={index}
       />
-      <Button variant="destructive" onClick={removeComboboxValue}>
-        Supprimer
-      </Button>
+      <DeleteButton removeFunction={removeComboboxValue} />
     </div>
   );
 }

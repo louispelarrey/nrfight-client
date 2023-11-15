@@ -8,16 +8,17 @@ import { Protected } from "@/security/protected";
 import ReservationSave from "./ReservationSave";
 import useToken from "@/hooks/useToken";
 import { useQuery } from "@tanstack/react-query";
-import { Toaster } from 'sonner'
+import { Toaster } from "sonner";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import AppHeader from "@/components/ui/app-header";
 
 export default function Reservation() {
-
   const { token, logout } = useToken();
-  
+
   useQuery({
-    queryKey: ['member'],
+    queryKey: ["member"],
     queryFn: async () => {
-    
       const res = await fetch("/api/member", {
         method: "POST",
         body: JSON.stringify({ token }),
@@ -32,15 +33,12 @@ export default function Reservation() {
     },
     enabled: !!token,
     retry: false,
-  })
-  
+  });
 
   return (
     <Protected>
       <>
-        <h1 className="text-5xl font-bold tracking-tight p-2 m-6 text-center">
-          NRFight Better Reservation
-        </h1>
+        <AppHeader logout={logout} />
 
         <div className="flex flex-col gap-8 m-8">
           <Toaster />

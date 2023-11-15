@@ -34,17 +34,38 @@ export default function Combobox({
   const [open, setOpen] = useState(false);
 
   const handleSelect = (currentValue: string) => {
-    const id = currentValue.split('-')[0]
+    const id = currentValue.split("-")[0];
     handleValueChange(id, index);
     setOpen(false);
-  }
+  };
 
-  const searchClass = () => {
+  const searchClass = (() => {
     if (!courses) return;
-    
+
     const course = courses.find((course) => course.value === value);
     return course ? course.label : "Rechercher un cours";
-  }
+  })();
+
+  const displayCourses = (() => {
+    return (
+      courses &&
+      courses.map((course) => (
+        <CommandItem
+          key={course.value}
+          value={`${course.value}-${course.label}`}
+          onSelect={handleSelect}
+        >
+          <Check
+            className={cn(
+              "mr-2 h-4 w-4",
+              value === course.value ? "opacity-100" : "opacity-0"
+            )}
+          />
+          {course.label}
+        </CommandItem>
+      ))
+    );
+  })();
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -55,7 +76,7 @@ export default function Combobox({
           aria-expanded={open}
           className="w-full justify-between h-[60px] text-left"
         >
-          {searchClass()}
+          {searchClass}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
@@ -63,24 +84,7 @@ export default function Combobox({
         <Command>
           <CommandInput placeholder="Rechercher un cours..." />
           <CommandEmpty>Pas de cours trouvé.</CommandEmpty>
-          <CommandGroup>
-            {courses &&
-              courses.map((course) => (
-                <CommandItem
-                  key={course.value}
-                  value={`${course.value}-${course.label}`}
-                  onSelect={handleSelect}
-                >
-                  <Check
-                    className={cn(
-                      "mr-2 h-4 w-4",
-                      value === course.value ? "opacity-100" : "opacity-0"
-                    )}
-                  />
-                  {course.label}
-                </CommandItem>
-              ))}
-          </CommandGroup>
+          <CommandGroup>{displayCourses}</CommandGroup>
         </Command>
       </PopoverContent>
     </Popover>

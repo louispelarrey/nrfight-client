@@ -40,7 +40,7 @@ export default function Reservation() {
       <>
         <AppHeader logout={logout} />
 
-        <div className="flex flex-col gap-8 m-8">
+        <div className="flex flex-col gap-4 m-8">
           <Toaster />
           <ReservationIDCourse />
           <Separator />

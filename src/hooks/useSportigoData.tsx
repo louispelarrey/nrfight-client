@@ -57,7 +57,7 @@ export default function useSportigoData(room: string) {
   const { isFetching, error, data } = useQuery<SportigoPlanningData>({
     queryKey: ["sportigoPlanningData", room],
     queryFn: () => fetch(`/api/planning?room=${room}`).then((res) => res.json()),
-    staleTime: 3600,
+    staleTime: 1000 * 60 * 60 * 24,
   });
 
   return { isFetching, error, data };

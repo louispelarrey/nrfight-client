@@ -1,39 +1,37 @@
-import Combobox from "./combobox";
+import React from "react";
 import { Button } from "./button";
-import { Trash2Icon } from "lucide-react";
-import DeleteButton from "./delete-button";
+import CourseInput, { ICourse } from "./course-input";
 
-export interface ICourse {
-  value: string;
-  label: string;
-}
-
-interface CoursesInputProps {
-  value: string;
+interface ICoursesInputs {
+  reservedCourses: string[];
+  handleReservationChange: (value: string, index: number) => void;
+  deleteReservation: (index: number) => void;
+  addReservation: () => void;
   courses?: ICourse[];
-  index: number;
-  handleValueChange: (value: string, index: number) => void;
-  removeComboboxValue: () => void;
-
 }
 
-export default function CoursesInput({
-  value,
+export default function CoursesInputs({
+  reservedCourses,
+  handleReservationChange,
+  deleteReservation,
+  addReservation,
   courses,
-  index,
-  handleValueChange,
-  removeComboboxValue,
-}: CoursesInputProps) {
-
+}: ICoursesInputs) {
   return (
-    <div className="flex flex-row gap-3 w-full">
-      <Combobox
-        value={value}
-        handleValueChange={handleValueChange}
-        courses={courses}
-        index={index}
-      />
-      <DeleteButton removeFunction={removeComboboxValue} />
-    </div>
+    <>
+      {reservedCourses.map((reservedCourses, index) => (
+        <CourseInput
+          value={reservedCourses}
+          handleValueChange={handleReservationChange}
+          courses={courses}
+          key={index}
+          removeComboboxValue={() => deleteReservation(index)}
+          index={index}
+        />
+      ))}
+      <Button variant="secondary" className="w-full" onClick={addReservation}>
+        Ajouter des cours
+      </Button>
+    </>
   );
 }

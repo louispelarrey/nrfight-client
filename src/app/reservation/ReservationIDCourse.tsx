@@ -3,9 +3,10 @@ import { SportigoContext } from "@/providers/SportigoDataProvider";
 import React, { useContext, useMemo } from "react";
 import transformSportigoDataToEvent from "@/lib/transform-sportigo-data-to-event";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import CoursesInput from "@/components/ui/courses-input";
+import CourseInput, { ICourse } from "@/components/ui/course-input";
 import { Button } from "@/components/ui/button";
 import { SportigoRoom } from "@/enums/sportigo-room";
+import CoursesInputs from "@/components/ui/courses-input";
 
 export default function ReservationIDCourse() {
   const {
@@ -23,8 +24,8 @@ export default function ReservationIDCourse() {
   }, [sportigoData]);
 
   return (
-    <div className="flex flex-col gap-3">
-      <h2>Cours à réserver</h2>
+    <div className="flex flex-col">
+      <h2 className="text-md mb-4">Cours à réserver</h2>
       <Tabs defaultValue="republique">
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger
@@ -50,23 +51,34 @@ export default function ReservationIDCourse() {
           value="republique"
           className="flex flex-row gap-3 flex-wrap"
         >
-          {reservedCourses.map((reservedCourses, index) => (
-            <CoursesInput
-              value={reservedCourses}
-              handleValueChange={handleReservationChange}
-              courses={courses}
-              key={index}
-              removeComboboxValue={() => deleteReservation(index)}
-              index={index}
-            />
-          ))}
-          <Button
-            variant="secondary"
-            className="w-full"
-            onClick={addReservation}
-          >
-            Ajouter des cours
-          </Button>
+          <CoursesInputs
+            reservedCourses={reservedCourses}
+            handleReservationChange={handleReservationChange}
+            deleteReservation={deleteReservation}
+            addReservation={addReservation}
+            courses={courses}
+          />
+        </TabsContent>
+        <TabsContent value="tolbiac" className="flex flex-row gap-3 flex-wrap">
+          <CoursesInputs
+            reservedCourses={reservedCourses}
+            handleReservationChange={handleReservationChange}
+            deleteReservation={deleteReservation}
+            addReservation={addReservation}
+            courses={courses}
+          />
+        </TabsContent>
+        <TabsContent
+          value="olympiades"
+          className="flex flex-row gap-3 flex-wrap"
+        >
+          <CoursesInputs
+            reservedCourses={reservedCourses}
+            handleReservationChange={handleReservationChange}
+            deleteReservation={deleteReservation}
+            addReservation={addReservation}
+            courses={courses}
+          />
         </TabsContent>
       </Tabs>
     </div>

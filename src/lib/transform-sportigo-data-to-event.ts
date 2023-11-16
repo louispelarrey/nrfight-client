@@ -1,4 +1,4 @@
-import { ICourse } from "@/components/ui/courses-input";
+import { ICourse } from "@/components/ui/course-input";
 import { SportigoPlanningData } from "@/hooks/useSportigoData";
 
 export default function transformSportigoDataToEvent(sportigoData?: SportigoPlanningData) {

@@ -16,7 +16,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useState } from "react";
-import { ICourse } from "./courses-input";
+import { ICourse } from "./course-input";
 
 interface IComboboxProps {
   value: string;

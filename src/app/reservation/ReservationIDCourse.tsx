@@ -6,7 +6,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import CourseInput, { ICourse } from "@/components/ui/course-input";
 import { Button } from "@/components/ui/button";
 import { SportigoRoom } from "@/enums/sportigo-room";
-import CoursesInputs from "@/components/ui/courses-input";
 
 export default function ReservationIDCourse() {
   const {
@@ -47,40 +46,57 @@ export default function ReservationIDCourse() {
             Olympiades
           </TabsTrigger>
         </TabsList>
-        <TabsContent
-          value="republique"
-          className="flex flex-row gap-3 flex-wrap"
-        >
-          <CoursesInputs
-            reservedCourses={reservedCourses}
-            handleReservationChange={handleReservationChange}
-            deleteReservation={deleteReservation}
-            addReservation={addReservation}
-            courses={courses}
-          />
-        </TabsContent>
-        <TabsContent value="tolbiac" className="flex flex-row gap-3 flex-wrap">
-          <CoursesInputs
-            reservedCourses={reservedCourses}
-            handleReservationChange={handleReservationChange}
-            deleteReservation={deleteReservation}
-            addReservation={addReservation}
-            courses={courses}
-          />
-        </TabsContent>
-        <TabsContent
-          value="olympiades"
-          className="flex flex-row gap-3 flex-wrap"
-        >
-          <CoursesInputs
-            reservedCourses={reservedCourses}
-            handleReservationChange={handleReservationChange}
-            deleteReservation={deleteReservation}
-            addReservation={addReservation}
-            courses={courses}
-          />
-        </TabsContent>
+        {Object.entries(SportigoRoom).map(([key, value]) => (
+          <TabsContent
+            value={key.toLowerCase()}
+            className="flex flex-row gap-3 flex-wrap"
+          >
+            <CoursesInputs
+              reservedCourses={reservedCourses[value]}
+              handleReservationChange={handleReservationChange}
+              deleteReservation={deleteReservation}
+              addReservation={addReservation}
+              courses={courses}
+            />
+          </TabsContent>
+        ))}
       </Tabs>
     </div>
+  );
+}
+
+interface ICoursesInputs {
+  courses?: ICourse[];
+  reservedCourses: string[];
+  handleReservationChange: (location: SportigoRoom, value: string, index: number) => void;
+  deleteReservation: (location: SportigoRoom, index: number) => void;
+  addReservation: (location: SportigoRoom) => void;
+}
+
+function CoursesInputs({
+  courses,
+  reservedCourses,
+  handleReservationChange,
+  deleteReservation,
+  addReservation,
+}: ICoursesInputs) {
+  const { room } = useContext(SportigoContext);
+
+  return (
+    <>
+      {reservedCourses.map((reservedCourses, index) => (
+        <CourseInput
+          value={reservedCourses}
+          handleValueChange={(value) => handleReservationChange(room, value, index)}
+          courses={courses}
+          key={index}
+          removeComboboxValue={() => deleteReservation(room, index)}
+          index={index}
+        />
+      ))}
+      <Button variant="secondary" className="w-full" onClick={() => addReservation(room)}>
+        Ajouter des cours
+      </Button>
+    </>
   );
 }

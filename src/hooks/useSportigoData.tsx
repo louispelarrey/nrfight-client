@@ -53,10 +53,10 @@ export interface SportigoPlanningData {
   };
 }
 
-export default function useSportigoData() {
+export default function useSportigoData(room: string) {
   const { isFetching, error, data } = useQuery<SportigoPlanningData>({
-    queryKey: ["sportigoPlanningData"],
-    queryFn: () => fetch("api/planning").then((res) => res.json()),
+    queryKey: ["sportigoPlanningData", room],
+    queryFn: () => fetch(`/api/planning?room=${room}`).then((res) => res.json()),
   });
 
   return { isFetching, error, data };

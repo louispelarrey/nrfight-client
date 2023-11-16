@@ -74,7 +74,7 @@ export default function Combobox({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-full justify-between text-left h-full"
+          className="w-full justify-between text-left lg:h-24 h-16"
         >
           {searchClass}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />

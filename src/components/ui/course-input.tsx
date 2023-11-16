@@ -14,7 +14,6 @@ interface CoursesInputProps {
   index: number;
   handleValueChange: (value: string, index: number) => void;
   removeComboboxValue: () => void;
-
 }
 
 export default function CourseInput({

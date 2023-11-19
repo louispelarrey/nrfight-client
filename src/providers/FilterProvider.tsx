@@ -1,7 +1,6 @@
 "use client";
 
 import { SportigoRoom } from "@/enums/sportigo-room";
-import { ReservedCourses } from "@prisma/client";
 import { PropsWithChildren, createContext, useState } from "react";
 import { DateRange } from "react-day-picker";
 
@@ -34,7 +33,6 @@ const DEFAULT_RESERVED_COURSES: ReservedCoursesPerSportigoRoom = {
 };
 
 export interface FilterContext {
-  // reservedCourses.republique.reservedCourses
   reservedCourses: ReservedCoursesPerSportigoRoom
   setReservedCourses: (reservedCourses: ReservedCoursesPerSportigoRoom) => void
 

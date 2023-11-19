@@ -4,7 +4,10 @@ import { DateRange } from "react-day-picker";
 
 export interface IReservations {
   reservedCourses: ReservedCourse[];
-  excludedDates: DateRange[];
+  excludedDates: {
+    from: string;
+    to: string;
+  }[];
 }
 
 export default function useRetreiveReservations() {

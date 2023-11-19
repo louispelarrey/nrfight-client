@@ -7,15 +7,16 @@ import { Button } from "@/components/ui/button";
 import { SportigoRoom } from "@/enums/sportigo-room";
 import { ReservedCourse } from "@/providers/FilterProvider";
 import { SportigoPlanningData } from "@/hooks/useSportigoData";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function ReservationIDCourse() {
+
   const {
     reservedCourses,
     handleReservationChange,
     deleteReservation,
     addReservation,
   } = useCourseInputs();
-
   const { sportigoData, setRoom } = useContext(SportigoContext);
 
   return (
@@ -80,7 +81,7 @@ function CoursesInputs({
   addReservation,
 }: ICoursesInputs) {
 
-  if(!sportigoData) return null;
+  if(!sportigoData) return <Skeleton className="w-full h-16" />
 
   return (
     <>

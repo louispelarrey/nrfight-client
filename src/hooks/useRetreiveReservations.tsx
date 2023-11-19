@@ -1,15 +1,10 @@
+import { ReservedCourse } from "@/providers/FilterProvider";
 import { useQuery } from "@tanstack/react-query";
-import useToken from "./useToken";
 import { DateRange } from "react-day-picker";
 
 export interface IReservations {
-  reservedCourses: {
-    sportigoId: string;
-  }[];
-  excludedDates: {
-    from: string;
-    to: string;
-  }[];
+  reservedCourses: ReservedCourse[];
+  excludedDates: DateRange[];
 }
 
 export default function useRetreiveReservations() {

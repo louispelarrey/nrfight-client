@@ -1,25 +1,24 @@
+import { SportigoPlanningData } from "@/hooks/useSportigoData";
 import Combobox from "./combobox";
-import { Button } from "./button";
-import { Trash2Icon } from "lucide-react";
 import DeleteButton from "./delete-button";
 
 export interface ICourse {
   value: string;
+  name: string;
+  startDate: string;
   label: string;
 }
 
 interface CoursesInputProps {
   value: string;
-  courses?: ICourse[];
-  index: number;
-  handleValueChange: (value: string, index: number) => void;
+  sportigoData: SportigoPlanningData;
+  handleValueChange: (value: string, startDate: string) => void;
   removeComboboxValue: () => void;
 }
 
 export default function CourseInput({
   value,
-  courses,
-  index,
+  sportigoData,
   handleValueChange,
   removeComboboxValue,
 }: CoursesInputProps) {
@@ -29,8 +28,7 @@ export default function CourseInput({
       <Combobox
         value={value}
         handleValueChange={handleValueChange}
-        courses={courses}
-        index={index}
+        sportigoData={sportigoData}
       />
       <DeleteButton removeFunction={removeComboboxValue} />
     </div>

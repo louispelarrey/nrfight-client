@@ -1,11 +1,12 @@
 import useCourseInputs from "@/hooks/useComboboxValues";
 import { SportigoContext } from "@/providers/SportigoDataProvider";
 import React, { useContext, useMemo } from "react";
-import transformSportigoDataToEvent from "@/lib/transform-sportigo-data-to-event";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import CourseInput, { ICourse } from "@/components/ui/course-input";
 import { Button } from "@/components/ui/button";
 import { SportigoRoom } from "@/enums/sportigo-room";
+import { ReservedCourse } from "@/providers/FilterProvider";
+import { SportigoPlanningData } from "@/hooks/useSportigoData";
 
 export default function ReservationIDCourse() {
   const {
@@ -16,11 +17,6 @@ export default function ReservationIDCourse() {
   } = useCourseInputs();
 
   const { sportigoData, setRoom } = useContext(SportigoContext);
-
-  const courses = useMemo(() => {
-    if (!sportigoData) return;
-    return transformSportigoDataToEvent(sportigoData);
-  }, [sportigoData]);
 
   return (
     <div className="flex flex-col">
@@ -52,11 +48,12 @@ export default function ReservationIDCourse() {
             className="flex flex-row gap-3 flex-wrap"
           >
             <CoursesInputs
+              sportigoData={sportigoData}
+              room={value}
               reservedCourses={reservedCourses[value]}
               handleReservationChange={handleReservationChange}
               deleteReservation={deleteReservation}
               addReservation={addReservation}
-              courses={courses}
             />
           </TabsContent>
         ))}
@@ -66,32 +63,34 @@ export default function ReservationIDCourse() {
 }
 
 interface ICoursesInputs {
-  courses?: ICourse[];
-  reservedCourses: string[];
-  handleReservationChange: (location: SportigoRoom, value: string, index: number) => void;
+  sportigoData?: SportigoPlanningData;
+  room: SportigoRoom;
+  reservedCourses: ReservedCourse[];
+  handleReservationChange: (location: SportigoRoom, value: string, startDate: string, index: number) => void;
   deleteReservation: (location: SportigoRoom, index: number) => void;
   addReservation: (location: SportigoRoom) => void;
 }
 
 function CoursesInputs({
-  courses,
+  sportigoData,
+  room,
   reservedCourses,
   handleReservationChange,
   deleteReservation,
   addReservation,
 }: ICoursesInputs) {
-  const { room } = useContext(SportigoContext);
+
+  if(!sportigoData) return null;
 
   return (
     <>
-      {reservedCourses.map((reservedCourses, index) => (
+      {reservedCourses.map((reservedCourse, index) => (
         <CourseInput
-          value={reservedCourses}
-          handleValueChange={(value) => handleReservationChange(room, value, index)}
-          courses={courses}
+          value={reservedCourse.sportigoId}
+          handleValueChange={(value, startDate) => handleReservationChange(room, value, startDate, index)}
+          sportigoData={sportigoData}
           key={index}
           removeComboboxValue={() => deleteReservation(room, index)}
-          index={index}
         />
       ))}
       <Button variant="secondary" className="w-full" onClick={() => addReservation(room)}>

@@ -1,24 +1,42 @@
 "use client";
 
 import { SportigoRoom } from "@/enums/sportigo-room";
+import { ReservedCourses } from "@prisma/client";
 import { PropsWithChildren, createContext, useState } from "react";
 import { DateRange } from "react-day-picker";
 
-export type ReservedCourses = {
-  [key in SportigoRoom]: string[];
+export interface ReservedCourse {
+  sportigoId: string;
+  startDate: string;
+}
+
+export type ReservedCoursesPerSportigoRoom = {
+  [key in SportigoRoom]: ReservedCourse[];
 };
 
-const DEFAULT_RESERVED_COURSES: ReservedCourses = {
-  [SportigoRoom.REPUBLIQUE]: [""],
-  [SportigoRoom.TOLBIAC]: [""],
-  [SportigoRoom.OLYMPIADES]: [""],
-  [SportigoRoom.REPUBLIQUE_COACHING]: [""],
+const DEFAULT_RESERVED_COURSES: ReservedCoursesPerSportigoRoom = {
+  [SportigoRoom.REPUBLIQUE]: [{
+    sportigoId: "",
+    startDate: ""
+  }],
+  [SportigoRoom.TOLBIAC]: [{
+    sportigoId: "",
+    startDate: ""
+  }],
+  [SportigoRoom.OLYMPIADES]: [{
+    sportigoId: "",
+    startDate: ""
+  }],
+  [SportigoRoom.REPUBLIQUE_COACHING]: [{
+    sportigoId: "",
+    startDate: ""
+  }],
 };
 
 export interface FilterContext {
   // reservedCourses.republique.reservedCourses
-  reservedCourses: ReservedCourses
-  setReservedCourses: (reservedCourses: ReservedCourses) => void
+  reservedCourses: ReservedCoursesPerSportigoRoom
+  setReservedCourses: (reservedCourses: ReservedCoursesPerSportigoRoom) => void
 
   excludedDates: DateRange[];
   setExcludedDates: (excludedDates: DateRange[]) => void;
@@ -26,7 +44,7 @@ export interface FilterContext {
 
 export const FilterContext = createContext({
   reservedCourses: DEFAULT_RESERVED_COURSES,
-  setReservedCourses: (reservedCourses: ReservedCourses) => {},
+  setReservedCourses: (reservedCourses: ReservedCoursesPerSportigoRoom) => {},
 
   excludedDates: [
     {
@@ -38,7 +56,7 @@ export const FilterContext = createContext({
 });
 
 export const FilterProvider = ({ children }: PropsWithChildren) => {
-  const [reservedCourses, setReservedCourses] = useState<ReservedCourses>(DEFAULT_RESERVED_COURSES);
+  const [reservedCourses, setReservedCourses] = useState<ReservedCoursesPerSportigoRoom>(DEFAULT_RESERVED_COURSES);
   const [excludedDates, setExcludedDates] = useState<DateRange[]>([]);
 
   return (

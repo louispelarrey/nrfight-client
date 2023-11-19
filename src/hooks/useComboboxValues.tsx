@@ -8,11 +8,11 @@ export default function useComboboxValues() {
   const {reservations} = useContext(RetreivedReservationsContext);
   const {reservedCourses, setReservedCourses} = useContext(FilterContext);
 
-  const handleReservationChange = (location: SportigoRoom, value: string, index: number) => {
+  const handleReservationChange = (location: SportigoRoom, value: string, startDate: string, index: number) => {
     const updatedCourses = { ...reservedCourses };
     updatedCourses[location] = [...updatedCourses[location]];
-    updatedCourses[location][index] = value;
-    console.log(location, value, index);
+    updatedCourses[location][index].sportigoId = value;
+    updatedCourses[location][index].startDate = startDate;
     setReservedCourses(updatedCourses);
   };
 
@@ -25,22 +25,15 @@ export default function useComboboxValues() {
 
   const addReservation = (location: SportigoRoom) => { 
     const updatedCourses = { ...reservedCourses };
-    updatedCourses[location] = [...updatedCourses[location], ""];
+    updatedCourses[location] = [...updatedCourses[location], {sportigoId: "", startDate: ""}];
     setReservedCourses(updatedCourses);
   };
 
 
   useEffect(() => {
     if (!reservations?.reservedCourses || reservations?.reservedCourses.length === 0) return;
-
-    // You'll need to adjust this to correctly update the appropriate location's reservations
-    // For example, if `reservations.reservedCourses` contains data for multiple locations
-    // you'll need to segregate and set them appropriately.
-    const reservationsIds = reservations.reservedCourses.map((reservation) => reservation.sportigoId);
-    // Example for one location - you'll need to extend this for all locations
-    setReservedCourses({ ...reservedCourses, [SportigoRoom.REPUBLIQUE]: reservationsIds });
+    setReservedCourses({ ...reservedCourses, [SportigoRoom.REPUBLIQUE]: reservations.reservedCourses });
   }, [reservations?.reservedCourses]);
-
 
   return { reservedCourses, handleReservationChange, deleteReservation, addReservation };
 }

@@ -17,52 +17,46 @@ import {
 } from "@/components/ui/popover";
 import { useState } from "react";
 import { ICourse } from "./course-input";
+import SelectCourseOption from "./select-course-option";
+import { SportigoPlanningData } from "@/hooks/useSportigoData";
+import getEventLabel from "@/lib/get-event-label";
 
 interface IComboboxProps {
   value: string;
-  handleValueChange: (value: string, index: number) => void;
-  courses?: ICourse[];
-  index: number;
+  handleValueChange: (value: string, startDate: string) => void;
+  sportigoData?: SportigoPlanningData;
 }
 
 export default function Combobox({
   value,
   handleValueChange,
-  courses,
-  index,
+  sportigoData,
 }: IComboboxProps) {
   const [open, setOpen] = useState(false);
 
-  const handleSelect = (currentValue: string) => {
+  const handleSelect = (currentValue: string, startDate: string) => {
     const id = currentValue.split("-")[0];
-    handleValueChange(id, index);
+    handleValueChange(id, startDate);
     setOpen(false);
   };
 
   const searchClass = (() => {
-    if (!courses) return;
+    if (!sportigoData) return;
 
-    const course = courses.find((course) => course.value === value);
-    return course ? course.label : "Rechercher un cours";
+    const course = sportigoData.data.events.rows.find((event) => String(event.id) === value);
+    return course ? getEventLabel(course): "Rechercher un cours";
   })();
 
   const displayCourses = (() => {
     return (
-      courses &&
-      courses.map((course) => (
-        <CommandItem
-          key={course.value}
-          value={`${course.value}-${course.label}`}
-          onSelect={handleSelect}
-        >
-          <Check
-            className={cn(
-              "mr-2 h-4 w-4",
-              value === course.value ? "opacity-100" : "opacity-0"
-            )}
-          />
-          {course.label}
-        </CommandItem>
+      sportigoData &&
+      sportigoData.data.events.rows.map((event) => (
+        <SelectCourseOption
+          key={String(event.id)}
+          event={event}
+          handleSelect={handleSelect}
+          value={value}
+        />
       ))
     );
   })();

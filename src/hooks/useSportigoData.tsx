@@ -2,7 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 
-interface Event {
+export interface Event {
   id: number;
   startDate: string;
   room: string;

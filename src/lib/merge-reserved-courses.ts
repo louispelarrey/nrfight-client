@@ -4,7 +4,7 @@ import { ReservedCoursesPerSportigoRoom, ReservedCourse } from "@/providers/Filt
 export function mergeReservedCourses(reservedCoursesPerSportigoRoom: ReservedCoursesPerSportigoRoom): IReservedCourse[] {
   const reservedCourses = Object.entries(reservedCoursesPerSportigoRoom).map(([room, reservedCourses]) => {
     return reservedCourses.map((reservedCourse: ReservedCourse) => {
-      if (!reservedCourse.startDate || !reservedCourse.sportigoId) return undefined;
+      if (!reservedCourse.sportigoId) return undefined;
 
       return {
         sportigoId: reservedCourse.sportigoId,

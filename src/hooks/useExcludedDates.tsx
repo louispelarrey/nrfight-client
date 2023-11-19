@@ -4,7 +4,7 @@ import { FilterContext } from "@/providers/FilterProvider";
 import { RetreivedReservationsContext } from "@/providers/RetreivedReservationsProvider";
 
 export default function useExcludedDates() {
-  const { reservations } = useContext(RetreivedReservationsContext);
+  const { retreivedReservations } = useContext(RetreivedReservationsContext);
   const { excludedDates, setExcludedDates } = useContext(FilterContext);
 
   const handleDateChange = (index: number, dateRange: DateRange) => {
@@ -25,14 +25,14 @@ export default function useExcludedDates() {
   }
 
   useEffect(() => {
-    if (!reservations?.excludedDates || reservations?.excludedDates.length === 0) return;
+    if (!retreivedReservations?.excludedDates || retreivedReservations?.excludedDates.length === 0) return;
 
-    const excludedDates = reservations.excludedDates.map((date) => ({
+    const excludedDates = retreivedReservations.excludedDates.map((date) => ({
       from: new Date(date.from),
       to: new Date(date.to),
     }));
     setExcludedDates(excludedDates);
-  }, [reservations?.excludedDates]);
+  }, [retreivedReservations?.excludedDates]);
 
   return { excludedDates, handleDateChange, addDate, removeDate };
 }

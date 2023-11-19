@@ -5,7 +5,7 @@ import { useContext, useEffect, useState } from "react";
 
 export default function useComboboxValues() {
 
-  const {reservations} = useContext(RetreivedReservationsContext);
+  const {retreivedReservations} = useContext(RetreivedReservationsContext);
   const {reservedCourses, setReservedCourses} = useContext(FilterContext);
 
   const handleReservationChange = (location: SportigoRoom, value: string, startDate: string, index: number) => {
@@ -31,9 +31,9 @@ export default function useComboboxValues() {
 
 
   useEffect(() => {
-    if (!reservations?.reservedCourses || reservations?.reservedCourses.length === 0) return;
-    setReservedCourses({ ...reservedCourses, [SportigoRoom.REPUBLIQUE]: reservations.reservedCourses });
-  }, [reservations?.reservedCourses]);
+    if (!retreivedReservations?.reservedCourses || retreivedReservations?.reservedCourses.length === 0) return;
+    setReservedCourses({ ...reservedCourses, ...retreivedReservations.reservedCourses });
+  }, [retreivedReservations?.reservedCourses]);
 
   return { reservedCourses, handleReservationChange, deleteReservation, addReservation };
 }

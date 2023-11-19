@@ -1,29 +1,26 @@
-"use client";
-
 import useRetreiveReservations, {
-  IReservations,
+  IRetreivedReservations,
 } from "@/hooks/useRetreiveReservations";
-import { PropsWithChildren, createContext, useState } from "react";
-import { DateRange } from "react-day-picker";
+import { PropsWithChildren, createContext } from "react";
 
 export interface RetreivedReservationsContext {
-  reservations: IReservations | undefined;
+  retreivedReservations: IRetreivedReservations | undefined;
   isFetching: boolean;
   error: Error | null;
 }
 
 export const RetreivedReservationsContext = createContext({
-  reservations: undefined as IReservations | undefined,
+  retreivedReservations: undefined as IRetreivedReservations | undefined,
   isFetching: false,
   error: null as Error | null,
 });
 
 export const RetreivedReservationsProvider = ({ children }: PropsWithChildren) => {
-  const { data: reservations, isFetching, error } = useRetreiveReservations();
+  const { data: retreivedReservations, isFetching, error } = useRetreiveReservations();
 
   return (
     <RetreivedReservationsContext.Provider
-      value={{ reservations, isFetching, error }}
+      value={{ retreivedReservations, isFetching, error }}
     >
       {children}
     </RetreivedReservationsContext.Provider>

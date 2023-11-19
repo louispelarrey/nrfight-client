@@ -1,6 +1,12 @@
 import prisma from "@/lib/prisma";
 import getUserByToken from "../member/_get-user/get-user-by-token";
-import { DateRange, IReservedCourse, reserveCourses } from "./_utils/reserve-courses";
+import {
+  DateRange,
+  IReservedCourse,
+  reserveCourses,
+} from "./_utils/reserve-courses";
+import { ReservedCoursesPerSportigoRoom } from "@/providers/FilterProvider";
+import { SportigoRoom } from "@/enums/sportigo-room";
 
 interface IRequestBody {
   excludedDates: Array<DateRange>;
@@ -13,12 +19,12 @@ export async function GET(request: Request): Promise<Response> {
   try {
     const url = new URL(request.url);
     const token = url.searchParams.get("token");
-    if(!token) throw new Error('Token not found');
+    if (!token) throw new Error("Token not found");
 
     const sportigoUser = await getUserByToken(token);
 
     if (!sportigoUser) {
-      throw new Error('User not found');
+      throw new Error("User not found");
     }
 
     const userEmail = sportigoUser.member.email;
@@ -29,6 +35,9 @@ export async function GET(request: Request): Promise<Response> {
         reservedCourses: {
           select: {
             sportigoId: true,
+            room: true,
+            dayNumber: true,
+            hour: true,
           },
         },
         excludedDates: {
@@ -36,17 +45,38 @@ export async function GET(request: Request): Promise<Response> {
             from: true,
             to: true,
           },
-        }
+        },
       },
     });
 
     if (!user) {
-      throw new Error('User not found in database');
+      throw new Error("User not found in database");
     }
+
+    const transformedReservedCourses: ReservedCoursesPerSportigoRoom = {
+      [SportigoRoom.REPUBLIQUE]: [],
+      [SportigoRoom.TOLBIAC]: [],
+      [SportigoRoom.OLYMPIADES]: [],
+      [SportigoRoom.REPUBLIQUE_COACHING]: [],
+    };
+
+    user.reservedCourses.forEach((course) => {
+      // Assuming course.room is of type SportigoRoom
+      transformedReservedCourses[course.room as SportigoRoom].push({
+        sportigoId: course.sportigoId,
+        startDate: new Date(
+          new Date().getFullYear(),
+          new Date().getMonth(),
+          new Date().getDate() + (course.dayNumber - new Date().getDay()),
+          Number(course.hour.split(":")[0]),
+          Number(course.hour.split(":")[1])
+        ).toISOString(),
+      });
+    });
 
     return new Response(
       JSON.stringify({
-        reservedCourses: user.reservedCourses,
+        reservedCourses: transformedReservedCourses,
         excludedDates: user.excludedDates,
       }),
       { status: 200 }
@@ -82,4 +112,3 @@ export async function POST(request: Request): Promise<Response> {
     return new Response("error", { status: 500 });
   }
 }
-

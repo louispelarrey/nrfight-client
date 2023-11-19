@@ -2,7 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 
-interface Event {
+export interface Event {
   id: number;
   startDate: string;
   room: string;
@@ -53,10 +53,11 @@ export interface SportigoPlanningData {
   };
 }
 
-export default function useSportigoData() {
+export default function useSportigoData(room: string) {
   const { isFetching, error, data } = useQuery<SportigoPlanningData>({
-    queryKey: ["sportigoPlanningData"],
-    queryFn: () => fetch("api/planning").then((res) => res.json()),
+    queryKey: ["sportigoPlanningData", room],
+    queryFn: () => fetch(`/api/planning?room=${room}`).then((res) => res.json()),
+    staleTime: 1000 * 60 * 60 * 24,
   });
 
   return { isFetching, error, data };

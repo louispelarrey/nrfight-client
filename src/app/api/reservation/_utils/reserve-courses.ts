@@ -1,5 +1,6 @@
 import prisma from "@/lib/prisma";
 import getUserByToken from "../../member/_get-user/get-user-by-token";
+import { SportigoRoom } from "@/enums/sportigo-room";
 
 export interface DateRange {
   from: Date;
@@ -8,6 +9,7 @@ export interface DateRange {
 
 export interface IReservedCourse {
   sportigoId: string;
+  room: string;
   dayNumber: number;
   hour: string;
 }
@@ -73,6 +75,7 @@ async function saveReservationToDb(
           reservedCourses: {
             create: reservedCourses.map((course) => ({
               sportigoId: course.sportigoId,
+              room: course.room,
               dayNumber: course.dayNumber,
               hour: course.hour,
               // Add other fields here

@@ -9,8 +9,6 @@ import ReservationSave from "./ReservationSave";
 import useToken from "@/hooks/useToken";
 import { useQuery } from "@tanstack/react-query";
 import { Toaster } from "sonner";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import AppHeader from "@/components/ui/app-header";
 
 export default function Reservation() {
@@ -40,7 +38,7 @@ export default function Reservation() {
       <>
         <AppHeader logout={logout} />
 
-        <div className="flex flex-col gap-8 m-8">
+        <div className="flex flex-col gap-4 m-6">
           <Toaster />
           <ReservationIDCourse />
           <Separator />

@@ -1,11 +1,9 @@
+import { SportigoRoom } from "@/enums/sportigo-room";
+import { ReservedCoursesPerSportigoRoom } from "@/providers/FilterProvider";
 import { useQuery } from "@tanstack/react-query";
-import useToken from "./useToken";
-import { DateRange } from "react-day-picker";
 
-export interface IReservations {
-  reservedCourses: {
-    sportigoId: string;
-  }[];
+export interface IRetreivedReservations {
+  reservedCourses: ReservedCoursesPerSportigoRoom[];
   excludedDates: {
     from: string;
     to: string;
@@ -13,7 +11,7 @@ export interface IReservations {
 }
 
 export default function useRetreiveReservations() {
-  const { isFetching, error, data } = useQuery<IReservations>({
+  const { isFetching, error, data } = useQuery<IRetreivedReservations>({
     queryKey: ["retreive-reservations"],
     queryFn: () =>
       fetch(

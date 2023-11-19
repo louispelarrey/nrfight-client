@@ -19,6 +19,7 @@ model User {
 model ReservedCourses {
   id  String  @default(cuid()) @id
   sportigoId String @unique
+  room String
   dayNumber Int
   hour String
   user User @relation(fields: [userId], references: [id])

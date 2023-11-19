@@ -1,12 +1,12 @@
 "use client";
 
-import getInfosFromSportigoData from "@/lib/get-infos-from-sportigo-data";
-import { FilterContext } from "@/providers/FilterProvider";
+import { IReservedCourse } from "@/app/api/reservation/_utils/reserve-courses";
+import { mergeReservedCourses } from "@/lib/merge-reserved-courses";
+import { FilterContext, ReservedCourse, ReservedCoursesPerSportigoRoom } from "@/providers/FilterProvider";
 import { SportigoContext } from "@/providers/SportigoDataProvider";
 import { UserContext } from "@/providers/UserProvider";
 import { useContext, useState } from "react";
 import { toast } from 'sonner'
-
 
 export default function useSendFiltersToServer() {
   const { token } = useContext(UserContext);
@@ -19,15 +19,11 @@ export default function useSendFiltersToServer() {
 
     try {
       if (!sportigoData) throw new Error("No sportigo data");
-      const fullEventInfo = getInfosFromSportigoData(
-        sportigoData,
-        reservedCourses
-      );
 
       const res = await fetch("/api/reservation", {
         method: "POST",
         body: JSON.stringify({
-          reservedCourses: fullEventInfo,
+          reservedCourses: mergeReservedCourses(reservedCourses),
           excludedDates,
           token,
         }),

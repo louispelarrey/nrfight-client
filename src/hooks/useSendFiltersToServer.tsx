@@ -1,11 +1,12 @@
 "use client";
 
-import { FilterContext } from "@/providers/FilterProvider";
+import { IReservedCourse } from "@/app/api/reservation/_utils/reserve-courses";
+import { mergeReservedCourses } from "@/lib/merge-reserved-courses";
+import { FilterContext, ReservedCourse, ReservedCoursesPerSportigoRoom } from "@/providers/FilterProvider";
 import { SportigoContext } from "@/providers/SportigoDataProvider";
 import { UserContext } from "@/providers/UserProvider";
 import { useContext, useState } from "react";
 import { toast } from 'sonner'
-
 
 export default function useSendFiltersToServer() {
   const { token } = useContext(UserContext);
@@ -22,7 +23,7 @@ export default function useSendFiltersToServer() {
       const res = await fetch("/api/reservation", {
         method: "POST",
         body: JSON.stringify({
-          reservedCourses,
+          reservedCourses: mergeReservedCourses(reservedCourses),
           excludedDates,
           token,
         }),

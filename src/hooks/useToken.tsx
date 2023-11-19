@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import { RedirectType, redirect } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 
 export default function useToken() {
@@ -38,8 +37,6 @@ export default function useToken() {
   const removeToken = useCallback(() => {
     localStorage.removeItem("token");
     setTokenState("");
-
-    redirect("/login", RedirectType.push);
   }, []);
 
   return {

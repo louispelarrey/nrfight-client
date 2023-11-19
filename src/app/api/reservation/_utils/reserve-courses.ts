@@ -9,7 +9,7 @@ export interface DateRange {
 
 export interface IReservedCourse {
   sportigoId: string;
-  room: SportigoRoom;
+  room: string;
   dayNumber: number;
   hour: string;
 }

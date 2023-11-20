@@ -19,22 +19,21 @@ export default function AuthenticationPage() {
               </h1>
               <p className="text-sm text-muted-foreground">
                 Entrez l'email et le mot de passe que vous utilisez pour vous
-                connecter à l'application Sportigo NRFight (vos identifiants de
-                connexion ne sont <b>PAS</b> conservés par ce site)
+                connecter à l'application Sportigo NRFight
               </p>
             </div>
             <UserAuthForm />
             <p className="px-8 text-center text-sm text-muted-foreground">
               En cliquant sur continuer, vous aggréez à nos{" "}
               <Link
-                href="/terms"
+                href=""
                 className="underline underline-offset-4 hover:text-primary"
               >
                 Conditions d'utilisation
               </Link>{" "}
               et{" "}
               <Link
-                href="/privacy"
+                href=""
                 className="underline underline-offset-4 hover:text-primary"
               >
                 Politique de confidentialité

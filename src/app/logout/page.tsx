@@ -1,7 +1,6 @@
 "use client";
 
 import useToken from "@/hooks/useToken";
-import { RedirectType, redirect } from "next/navigation";
 import { useEffect } from "react";
 
 export default function Logout() {
@@ -9,13 +8,9 @@ export default function Logout() {
 
   useEffect(() => {
     logout();
-
-    redirect("/login", RedirectType.push);
   }, [logout]);
 
   return (
-    <div>
-      <h1>Logout</h1>
-    </div>
+    <></>
   );
 }

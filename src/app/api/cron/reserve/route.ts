@@ -9,6 +9,7 @@ type Data = {
 }[];
 
 export const dynamic = 'force-dynamic'
+export const runtime = 'edge' // 'nodejs' (default) | 'edge'
 
 export async function GET(): Promise<Response> {
   try {

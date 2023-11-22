@@ -11,44 +11,50 @@ type Data = {
 export const dynamic = 'force-dynamic'
 
 export async function GET(): Promise<Response> {
-  try {
-    const users = await prisma.user.findMany({
-      include: {
-        reservedCourses: true,
-        excludedDates: true,
-      },
-    });
+  const stream = new ReadableStream({
+    async start(controller) {
+      try {
+        const users = await prisma.user.findMany({
+          include: {
+            reservedCourses: true,
+            excludedDates: true,
+          },
+        });
 
-    let data: Data = [];
-    for (const user of users) {
-      const decryptedPassword = await decryptPassword(user.password);
-      const sportigoUser = await sportigoLogin(user.email, decryptedPassword);
-      const token = sportigoUser.member.appToken;
+        for (const user of users) {
+          const decryptedPassword = await decryptPassword(user.password);
+          const sportigoUser = await sportigoLogin(user.email, decryptedPassword);
+          const token = sportigoUser.member.appToken;
 
-      const reservedCourses = await reserveCourses(
-        user.excludedDates,
-        user.reservedCourses,
-        token
-      );
+          const reservedCourses = await reserveCourses(
+            user.excludedDates,
+            user.reservedCourses,
+            token
+          );
 
-      data.push({
-        email: user.email,
-        nbReservedCourses: reservedCourses.length,
-      });
-    }
+          const data: Data = [{
+            email: user.email,
+            nbReservedCourses: reservedCourses.length,
+          }];
 
-    return new Response(JSON.stringify(data), {
-      headers: {
-        "Content-Type": "application/json",
-        "Cache-Control": "no-cache",
-        //disable vercel cache
-        "Surrogate-Control": "no-store",
-        cache: "no-cache",
-      },
-    });
-  } catch (error) {
-    console.log("API ERROR /cron/reserve", error);
+          controller.enqueue(new TextEncoder().encode(JSON.stringify(data)));
+        }
 
-    return new Response("error" + error, { status: 500 });
-  }
+        controller.close();
+      } catch (error) {
+        console.error("API ERROR /cron/reserve", error);
+        controller.error("Error: " + error);
+      }
+    },
+  });
+
+  return new Response(stream, {
+    headers: {
+      "Content-Type": "application/json",
+      "Cache-Control": "no-cache",
+      //disable vercel cache
+      "Surrogate-Control": "no-store",
+      cache: "no-cache",
+    },
+  });
 }

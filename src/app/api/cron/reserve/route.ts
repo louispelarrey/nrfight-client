@@ -32,12 +32,7 @@ export async function GET(): Promise<Response> {
             token
           );
 
-          const data: Data = [{
-            email: user.email,
-            nbReservedCourses: reservedCourses.length,
-          }];
-
-          controller.enqueue(new TextEncoder().encode(JSON.stringify(data)));
+          controller.enqueue(new TextEncoder().encode("Réservé " + reservedCourses.length + " cours pour " + user.email + "\n"));
         }
 
         controller.close();

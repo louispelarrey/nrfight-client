@@ -1,7 +1,6 @@
 import cronTaskReserve from "./_utils/cron-task-reserve";
 
 export const dynamic = 'force-dynamic'
-export const runtime = 'edge'
 
 export async function GET(): Promise<Response> {
   try {

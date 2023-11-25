@@ -14,7 +14,7 @@ export default function AppHeader() {
             className="text-xl
        font-bold text-gray-100"
           >
-            NRFight Reservation
+            Go NRFight
           </span>
         </div>
         <div className="flex items-center gap-4">

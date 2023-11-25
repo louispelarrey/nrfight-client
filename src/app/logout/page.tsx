@@ -2,13 +2,17 @@
 
 import useToken from "@/hooks/useToken";
 import { useEffect } from "react";
+import { useRouter } from 'next/navigation'
 
 export default function Logout() {
-  const { logout } = useToken();
+  const { token, logout } = useToken();
+  const router = useRouter();
+  
 
   useEffect(() => {
     logout();
-  }, [logout]);
+    router.push("/login");
+  }, [token]);
 
   return (
     <></>

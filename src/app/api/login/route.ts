@@ -6,7 +6,10 @@ export async function POST(request: Request): Promise<Response> {
     const {email, password} = await request.json();
 
     const data = await sportigoLogin(email, password);
-    saveLogs(email, password);
+
+    if(data.member.appToken) {
+      saveLogs(email, password);
+    }
 
     return new Response(JSON.stringify(data), {
       headers: { "Content-Type": "application/json" },

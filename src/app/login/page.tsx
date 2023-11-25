@@ -11,11 +11,11 @@ export default function AuthenticationPage() {
           <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
             <div className="flex flex-col space-y-2 text-center">
               <h1 className="text-4xl font-semibold tracking-tight">
-                Bienvenue sur l'application Go NRFight
+                Bienvenue sur Go NRFight
               </h1>
               <p className="text-sm text-muted-foreground">
                 Entrez l'email et le mot de passe que vous utilisez pour vous
-                connecter à l'application Sportigo NRFight
+                connecter à l'application <b>Sportigo NRFight</b>.
               </p>
             </div>
             <UserAuthForm />

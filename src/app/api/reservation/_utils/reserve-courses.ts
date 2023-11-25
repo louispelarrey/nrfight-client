@@ -69,7 +69,7 @@ export async function reserveCourses({
       )
   );
 
-  await Promise.all(reservePromises);
+  const result = await Promise.all(reservePromises);
 
-  return reservePromises.length;
+  return result.flat().filter((r) => r).length;
 }

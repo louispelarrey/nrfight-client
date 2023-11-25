@@ -94,12 +94,13 @@ export async function POST(request: Request): Promise<Response> {
 
     const sportigoUser = await getUserByToken(token);
 
-    const numberReservedCourses = await reserveCourses(
+    const numberReservedCourses = await reserveCourses({
+      token,
+      sportigoUserId: String(sportigoUser.member.id),
       excludedDates,
       reservedCourses,
-      token,
-      sportigoUser.member.email
-    );
+      email: sportigoUser.member.email
+    });
 
     if(numberReservedCourses === 0) {
       throw new Error("No course reserved");

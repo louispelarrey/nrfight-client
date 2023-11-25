@@ -2,6 +2,7 @@ import { DateRange, IReservedCourse } from "./save-reservation-to-db";
 
 export default async function saveReservationSportigo(
   token: string,
+  sportigoUserId: string,
   reservedCourse: IReservedCourse,
   reservedDay: Date
 ): Promise<void> {
@@ -24,7 +25,7 @@ export default async function saveReservationSportigo(
         date: `${reservedDay.getFullYear()}-${
           reservedDay.getMonth() + 1
         }-${reservedDay.getDate()} ${reservedCourse.hour}`,
-        members: ["549336"],
+        members: [sportigoUserId],
         coaching: false,
         discipline: null,
         nbFriends: null,

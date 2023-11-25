@@ -21,36 +21,55 @@ interface NotExcludedDatesToReserve {
   notExcludedDate: Date[];
 }
 
-export async function reserveCourses(
-  excludedDates: Array<DateRange>,
-  reservedCourses: Array<IReservedCourse>,
-  token: string,
-  email: string
-): Promise<number> {
+interface IReserveCourse {
+  token: string;
+  sportigoUserId: string;
+  excludedDates: Array<DateRange>;
+  reservedCourses: Array<IReservedCourse>;
+  email: string;
+}
+
+export async function reserveCourses({
+  token,
+  sportigoUserId,
+  excludedDates,
+  reservedCourses,
+  email,
+}: IReserveCourse): Promise<number> {
   await saveReservationToDb(email, reservedCourses, excludedDates);
 
   let notExcludedDatesToReserve: NotExcludedDatesToReserve[] = [];
-  for(const reservedCourse of reservedCourses) {
-    const notExcludedDate = getAllNotExcludedDaysPerDayNumber(reservedCourse.dayNumber, excludedDates)
+  for (const reservedCourse of reservedCourses) {
+    const notExcludedDate = getAllNotExcludedDaysPerDayNumber(
+      reservedCourse.dayNumber,
+      excludedDates
+    );
 
     notExcludedDatesToReserve.push({
       sportigoId: reservedCourse.sportigoId,
       room: reservedCourse.room,
       dayNumber: reservedCourse.dayNumber,
       hour: reservedCourse.hour,
-      notExcludedDate
+      notExcludedDate,
     });
   }
 
-  const flattedNotExcludedDatesToReserve = notExcludedDatesToReserve.flat()
+  const flattedNotExcludedDatesToReserve = notExcludedDatesToReserve.flat();
 
-  const reservePromises = flattedNotExcludedDatesToReserve.map((notExcludedDateToReserve) =>
-    notExcludedDateToReserve.notExcludedDate.map((notExcludedDate) => reserveDate(token, notExcludedDateToReserve, notExcludedDate))
+  const reservePromises = flattedNotExcludedDatesToReserve.map(
+    (notExcludedDateToReserve) =>
+      notExcludedDateToReserve.notExcludedDate.map(
+        async (notExcludedDate) =>
+          await reserveDate(
+            token,
+            sportigoUserId,
+            notExcludedDateToReserve,
+            notExcludedDate
+          )
+      )
   );
 
-  await Promise.all(reservePromises);
+  // await Promise.all(reservePromises);
 
-  return flattedNotExcludedDatesToReserve.length;
+  return reservePromises.length;
 }
-
-

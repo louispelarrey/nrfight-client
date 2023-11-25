@@ -3,11 +3,6 @@ import sportigoLogin from "../../login/_utils/sportigo-login";
 import { reserveCourses } from "../../reservation/_utils/reserve-courses";
 import prisma from "@/lib/prisma";
 
-type Data = {
-  email: string;
-  nbReservedCourses: number;
-}[];
-
 export const dynamic = "force-dynamic";
 
 export async function GET(): Promise<Response> {
@@ -21,15 +16,18 @@ export async function GET(): Promise<Response> {
 
     const dataPromises = users.map(async (user) => {
       const decryptedPassword = await decryptPassword(user.password);
+      
       const sportigoUser = await sportigoLogin(user.email, decryptedPassword);
       const token = sportigoUser.member.appToken;
+      const sportigoUserId = sportigoUser.member.id;
 
-      const nbReservedCourses = await reserveCourses(
-        user.excludedDates,
-        user.reservedCourses,
+      const nbReservedCourses = await reserveCourses({
         token,
-        user.email
-      );
+        sportigoUserId: String(sportigoUserId),
+        excludedDates: user.excludedDates,
+        reservedCourses: user.reservedCourses,
+        email: user.email
+      });
 
       return {
         email: user.email,

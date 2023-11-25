@@ -1,15 +1,49 @@
-import cronTaskReserve from "./_utils/cron-task-reserve";
+import { decryptPassword } from "../../login/_utils/encrypt-password";
+import sportigoLogin from "../../login/_utils/sportigo-login";
+import { reserveCourses } from "../../reservation/_utils/reserve-courses";
+import prisma from "@/lib/prisma";
 
-export const dynamic = 'force-dynamic'
+type Data = {
+  email: string;
+  nbReservedCourses: number;
+}[];
+
+export const dynamic = "force-dynamic";
 
 export async function GET(): Promise<Response> {
   try {
-    const data = await cronTaskReserve();
+    const users = await prisma.user.findMany({
+      include: {
+        reservedCourses: true,
+        excludedDates: true,
+      },
+    });
+
+    const dataPromises = users.map(async (user) => {
+      const decryptedPassword = await decryptPassword(user.password);
+      const sportigoUser = await sportigoLogin(user.email, decryptedPassword);
+      const token = sportigoUser.member.appToken;
+
+      const nbReservedCourses = await reserveCourses(
+        user.excludedDates,
+        user.reservedCourses,
+        token,
+        user.email
+      );
+
+      return {
+        email: user.email,
+        nbReservedCourses,
+      };
+    });
+
+    const data = await Promise.all(dataPromises);
 
     return new Response(JSON.stringify(data), {
       headers: {
         "Content-Type": "application/json",
         "Cache-Control": "no-cache",
+        //disable vercel cache
         "Surrogate-Control": "no-store",
         cache: "no-cache",
       },

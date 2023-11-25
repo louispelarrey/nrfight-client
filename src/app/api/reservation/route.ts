@@ -1,12 +1,11 @@
 import prisma from "@/lib/prisma";
 import getUserByToken from "../member/_get-user/get-user-by-token";
 import {
-  DateRange,
-  IReservedCourse,
   reserveCourses,
 } from "./_utils/reserve-courses";
 import { ReservedCoursesPerSportigoRoom } from "@/providers/FilterProvider";
 import { SportigoRoom } from "@/enums/sportigo-room";
+import { DateRange, IReservedCourse } from "./_utils/save-reservation/save-reservation-to-db";
 
 interface IRequestBody {
   excludedDates: Array<DateRange>;
@@ -93,16 +92,17 @@ export async function POST(request: Request): Promise<Response> {
     const { excludedDates, reservedCourses, token }: IRequestBody =
       await request.json();
 
-    const settledPromises = await reserveCourses(
+    const sportigoUser = await getUserByToken(token);
+
+    const numberReservedCourses = await reserveCourses(
       excludedDates,
       reservedCourses,
-      token
+      token,
+      sportigoUser.member.email
     );
 
-    for (const settledPromise of settledPromises) {
-      if (settledPromise.status === "rejected") {
-        throw settledPromise.reason;
-      }
+    if(numberReservedCourses === 0) {
+      throw new Error("No course reserved");
     }
 
     return new Response("OK", { status: 200 });

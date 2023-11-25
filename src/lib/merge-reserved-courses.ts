@@ -1,4 +1,4 @@
-import { IReservedCourse } from "@/app/api/reservation/_utils/reserve-courses";
+import { IReservedCourse } from "@/app/api/reservation/_utils/save-reservation/save-reservation-to-db";
 import { ReservedCoursesPerSportigoRoom, ReservedCourse } from "@/providers/FilterProvider";
 
 export function mergeReservedCourses(reservedCoursesPerSportigoRoom: ReservedCoursesPerSportigoRoom): IReservedCourse[] {

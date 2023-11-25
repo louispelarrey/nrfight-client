@@ -60,7 +60,7 @@ export async function reserveCourses({
     (notExcludedDateToReserve) =>
       notExcludedDateToReserve.notExcludedDate.map(
         async (notExcludedDate) =>
-          await reserveDate(
+          reserveDate(
             token,
             sportigoUserId,
             notExcludedDateToReserve,
@@ -69,7 +69,7 @@ export async function reserveCourses({
       )
   );
 
-  // await Promise.all(reservePromises);
+  await Promise.all(reservePromises);
 
   return reservePromises.length;
 }

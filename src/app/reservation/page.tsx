@@ -21,8 +21,8 @@ export default function Reservation() {
           <ReservationIDCourse />
           <Separator />
           <ReservationExcludeDays />
-          <Separator />
-          <ReservationResults />
+          {/* <Separator />
+          <ReservationResults /> */}
           <Separator />
           <ReservationSave />
         </div>

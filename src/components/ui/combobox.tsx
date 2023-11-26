@@ -45,7 +45,7 @@ export default function Combobox({
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="p-0 w-[300px]" align="start">
+      <PopoverContent className="p-0 w-[300px]" align="start" side="bottom" avoidCollisions={false}>
         <Command shouldFilter={false}>
           <CommandInput
             placeholder="Rechercher un cours..."

@@ -12,7 +12,7 @@ export default function DeleteButton({
       onClick={removeFunction}
       className="h-full"
     >
-      <Trash2Icon className="w-5" />
+      <Trash2Icon className="w-4" />
     </Button>
   );
 }

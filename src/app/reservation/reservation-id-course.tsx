@@ -95,7 +95,7 @@ function CoursesInputs({
           removeComboboxValue={() => deleteReservation(room, index)}
         />
       ))}
-      <Button variant="secondary" className="w-full" onClick={() => addReservation(room)}>
+      <Button variant="secondary" className="w-full h-12" onClick={() => addReservation(room)}>
         Ajouter des cours
       </Button>
     </>

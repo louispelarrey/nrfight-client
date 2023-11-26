@@ -1,4 +1,4 @@
-import { SportigoPlanningData } from "@/hooks/useSportigoData";
+import { SportigoPlanningData } from "@/hooks/use-sportigo-data";
 import { rrulestr } from "rrule"; // Ensure you have the rrule library installed
 
 export default function transformSportigoDataToFullCalendar(

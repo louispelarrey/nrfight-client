@@ -1,5 +1,5 @@
 import { IReservedCourse } from "@/app/api/reservation/_utils/save-reservation/save-reservation-to-db";
-import { ReservedCoursesPerSportigoRoom, ReservedCourse } from "@/providers/FilterProvider";
+import { ReservedCoursesPerSportigoRoom, ReservedCourse } from "@/providers/filter-provider";
 
 export function mergeReservedCourses(reservedCoursesPerSportigoRoom: ReservedCoursesPerSportigoRoom): IReservedCourse[] {
   const reservedCourses = Object.entries(reservedCoursesPerSportigoRoom).map(([room, reservedCourses]) => {

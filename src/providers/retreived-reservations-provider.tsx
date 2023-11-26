@@ -1,6 +1,6 @@
 import useRetreiveReservations, {
   IRetreivedReservations,
-} from "@/hooks/useRetreiveReservations";
+} from "@/hooks/use-retreive-reservations";
 import { PropsWithChildren, createContext } from "react";
 
 export interface RetreivedReservationsContext {

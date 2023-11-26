@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import ExcludedDayPicker from "@/components/ui/excluded-day-picker";
-import useDateExcluder from "@/hooks/useExcludedDates";
+import useDateExcluder from "@/hooks/use-excluded-dates";
 
 export default function ReservationExcludeDays() {
 

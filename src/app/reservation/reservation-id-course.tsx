@@ -1,12 +1,12 @@
-import useCourseInputs from "@/hooks/useComboboxValues";
-import { SportigoContext } from "@/providers/SportigoDataProvider";
+import useCourseInputs from "@/hooks/use-combobox-values";
+import { SportigoContext } from "@/providers/sportigo-data-provider";
 import React, { useContext, useMemo } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import CourseInput, { ICourse } from "@/components/ui/course-input";
 import { Button } from "@/components/ui/button";
 import { SportigoRoom } from "@/enums/sportigo-room";
-import { ReservedCourse } from "@/providers/FilterProvider";
-import { SportigoPlanningData } from "@/hooks/useSportigoData";
+import { ReservedCourse } from "@/providers/filter-provider";
+import { SportigoPlanningData } from "@/hooks/use-sportigo-data";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function ReservationIDCourse() {

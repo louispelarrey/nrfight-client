@@ -2,7 +2,7 @@
 
 import { useContext, useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { UserContext } from "@/providers/UserProvider";
+import { UserContext } from "@/providers/user-provider";
 import { redirect, RedirectType } from "next/navigation";
 import { toast } from 'sonner';
 import { Button } from "@/components/ui/button";

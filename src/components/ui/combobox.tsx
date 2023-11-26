@@ -11,7 +11,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { SportigoPlanningData } from "@/hooks/useSportigoData";
+import { SportigoPlanningData } from "@/hooks/use-sportigo-data";
 import { useComboboxSearch } from "@/hooks/use-combobox-search";
 
 interface IComboboxProps {

@@ -1,4 +1,4 @@
-import { Event } from "@/hooks/useSportigoData";
+import { Event } from "@/hooks/use-sportigo-data";
 
 export default function getEventLabel(event: Event) {
   const date = new Date(event.startDate);

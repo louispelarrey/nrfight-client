@@ -1,9 +1,9 @@
 "use client";
 
 import { mergeReservedCourses } from "@/lib/merge-reserved-courses";
-import { FilterContext } from "@/providers/FilterProvider";
-import { SportigoContext } from "@/providers/SportigoDataProvider";
-import { UserContext } from "@/providers/UserProvider";
+import { FilterContext } from "@/providers/filter-provider";
+import { SportigoContext } from "@/providers/sportigo-data-provider";
+import { UserContext } from "@/providers/user-provider";
 import { useContext, useState } from "react";
 import { toast } from 'sonner'
 

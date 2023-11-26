@@ -1,7 +1,7 @@
 "use client";
 
 import { SportigoRoom } from "@/enums/sportigo-room";
-import useSportigoData, { SportigoPlanningData } from "@/hooks/useSportigoData";
+import useSportigoData, { SportigoPlanningData } from "@/hooks/use-sportigo-data";
 import { createContext, useState } from "react";
 import { DateRange } from "react-day-picker";
 

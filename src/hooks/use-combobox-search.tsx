@@ -1,8 +1,8 @@
 import { useState, useCallback } from "react";
 import Fuse from "fuse.js";
-import { SportigoPlanningData } from "./useSportigoData";
+import { SportigoPlanningData } from "./use-sportigo-data";
 import SelectCourseOption from "@/components/ui/select-course-option";
-import { Event } from "@/hooks/useSportigoData";
+import { Event } from "@/hooks/use-sportigo-data";
 
 interface IComboboxSearchProps {
   sportigoData: SportigoPlanningData;

@@ -1,4 +1,4 @@
-import { SportigoPlanningData } from "@/hooks/useSportigoData";
+import { SportigoPlanningData } from "@/hooks/use-sportigo-data";
 import Combobox from "./combobox";
 import DeleteButton from "./delete-button";
 

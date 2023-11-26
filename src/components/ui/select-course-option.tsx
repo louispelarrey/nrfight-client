@@ -2,7 +2,7 @@ import React from "react";
 import { Check } from "lucide-react";
 import { CommandItem } from "@/components/ui/command";
 import { cn } from "@/lib/utils";
-import { Event, SportigoPlanningData } from "@/hooks/useSportigoData";
+import { Event, SportigoPlanningData } from "@/hooks/use-sportigo-data";
 import getEventLabel from "@/lib/get-event-label";
 
 interface ISelectCourseOptions {

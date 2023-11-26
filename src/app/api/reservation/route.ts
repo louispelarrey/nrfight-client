@@ -3,7 +3,7 @@ import getUserByToken from "../member/_get-user/get-user-by-token";
 import {
   reserveCourses,
 } from "./_utils/reserve-courses";
-import { ReservedCoursesPerSportigoRoom } from "@/providers/FilterProvider";
+import { ReservedCoursesPerSportigoRoom } from "@/providers/filter-provider";
 import { SportigoRoom } from "@/enums/sportigo-room";
 import { DateRange, IReservedCourse } from "./_utils/save-reservation/save-reservation-to-db";
 

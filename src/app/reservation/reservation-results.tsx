@@ -3,15 +3,12 @@
 import { addDays, format } from "date-fns";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
-import { DateRange } from "react-day-picker";
-import { SportigoPlanningData } from "@/hooks/useSportigoData";
-import transformSportigoDataToFullCalendar from "@/lib/transformSportigoDataToFullCalendar";
-import { useContext, useEffect } from "react";
+import transformSportigoDataToFullCalendar from "@/lib/transform-sportigo-data-to-fullcalendar";
+import { useContext } from "react";
 import rrulePlugin from "@fullcalendar/rrule";
 import timeGridPlugin from "@fullcalendar/timegrid";
-import { FilterContext } from "@/providers/FilterProvider";
-import { SportigoContext } from "@/providers/SportigoDataProvider";
-import { Skeleton } from "@/components/ui/skeleton";
+import { FilterContext } from "@/providers/filter-provider";
+import { SportigoContext } from "@/providers/sportigo-data-provider";
 
 export default function ReservationResults() {
 

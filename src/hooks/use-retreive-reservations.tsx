@@ -1,5 +1,5 @@
 import { SportigoRoom } from "@/enums/sportigo-room";
-import { ReservedCoursesPerSportigoRoom } from "@/providers/FilterProvider";
+import { ReservedCoursesPerSportigoRoom } from "@/providers/filter-provider";
 import { useQuery } from "@tanstack/react-query";
 
 export interface IRetreivedReservations {

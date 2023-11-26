@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Icons } from "@/components/ui/icons";
-import useSendFiltersToServer from "@/hooks/useSendFiltersToServer";
+import useSendFiltersToServer from "@/hooks/use-send-filters-to-server";
 
 export default function ReservationSave() {
   const { sendToServer, isLoading } = useSendFiltersToServer();

@@ -1,11 +1,11 @@
 "use client";
 
 import { Separator } from "@/components/ui/separator";
-import ReservationIDCourse from "./ReservationIDCourse";
-import ReservationExcludeDays from "./ReservationExcludeDays";
-import ReservationResults from "./ReservationResults";
+import ReservationIDCourse from "./reservation-id-course";
+import ReservationExcludeDays from "./reservation-exclude-days";
+import ReservationResults from "./reservation-results";
 import { Protected } from "@/security/protected";
-import ReservationSave from "./ReservationSave";
+import ReservationSave from "./reservation-save";
 import { Toaster } from "sonner";
 import AppHeader from "@/components/ui/app-header";
 

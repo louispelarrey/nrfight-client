@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Button } from "./button";
-import useToken from "@/hooks/useToken";
+import useToken from "@/hooks/use-token";
 import ToggleTheme from "./toggle-theme";
 
 export default function AppHeader() {

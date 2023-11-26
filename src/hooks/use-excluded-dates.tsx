@@ -1,7 +1,7 @@
 import { useEffect, useContext } from "react";
 import { DateRange } from "react-day-picker";
-import { FilterContext } from "@/providers/FilterProvider";
-import { RetreivedReservationsContext } from "@/providers/RetreivedReservationsProvider";
+import { FilterContext } from "@/providers/filter-provider";
+import { RetreivedReservationsContext } from "@/providers/retreived-reservations-provider";
 
 export default function useExcludedDates() {
   const { retreivedReservations } = useContext(RetreivedReservationsContext);

@@ -1,7 +1,7 @@
 "use client"
 
 import { createContext } from 'react';
-import useToken from '../hooks/useToken';
+import useToken from '../hooks/use-token';
 
 interface UserContext {
   token: string | null;

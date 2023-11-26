@@ -1,6 +1,6 @@
 import { SportigoRoom } from "@/enums/sportigo-room";
-import { FilterContext } from "@/providers/FilterProvider";
-import { RetreivedReservationsContext } from "@/providers/RetreivedReservationsProvider";
+import { FilterContext } from "@/providers/filter-provider";
+import { RetreivedReservationsContext } from "@/providers/retreived-reservations-provider";
 import { useContext, useEffect, useState } from "react";
 
 export default function useComboboxValues() {

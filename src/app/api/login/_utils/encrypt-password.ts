@@ -20,3 +20,4 @@ export const decryptPassword = async (encryptedPassword: string): Promise<string
   const decrypted = Buffer.concat([decipher.update(Buffer.from(encrypted, 'hex')), decipher.final()]);
   return decrypted.toString();
 };
+

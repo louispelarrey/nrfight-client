@@ -17,7 +17,7 @@ export default function InputField({ label, type, register, isLoading }: IINputF
       </Label>
       <Input
         id={type}
-        placeholder={type}
+        placeholder={label}
         type={type}
         autoCapitalize="none"
         autoComplete={type}

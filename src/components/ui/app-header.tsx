@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Button } from "./button";
 import useToken from "@/hooks/useToken";
+import ToggleTheme from "./toggle-theme";
 
 export default function AppHeader() {
   return (
@@ -18,6 +19,7 @@ export default function AppHeader() {
           <Button variant="outline">
             <Link href="logout">Déconnexion</Link>
           </Button>
+          {/* <ToggleTheme /> */}
         </div>
       </div>
     </header>

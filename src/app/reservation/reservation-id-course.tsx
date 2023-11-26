@@ -82,7 +82,7 @@ function CoursesInputs({
   addReservation,
 }: ICoursesInputs) {
 
-  if(!sportigoData) return <Skeleton className="w-full h-16" />
+  if(!sportigoData) return <Skeleton className="w-full md:h-12 h-20" />
 
   return (
     <>

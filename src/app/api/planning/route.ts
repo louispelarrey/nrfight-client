@@ -1,3 +1,5 @@
+import getEventLabel from "@/lib/get-event-label";
+
 export async function GET(request: Request): Promise<Response> {
   const roomParam = new URL(request.url).searchParams.get("room");
   const res = await fetch(
@@ -12,6 +14,8 @@ export async function GET(request: Request): Promise<Response> {
   );
   const data = await res.json();
 
+
+  // Add name and labels to events
   data.events.rows.map((event: any) => {
     event.name =
       data.resources.rows.find(
@@ -19,6 +23,7 @@ export async function GET(request: Request): Promise<Response> {
       )?.name +
       " " +
       event.name;
+    event.label = getEventLabel(event);
   });
 
   const response = new Response(JSON.stringify({ data }), {

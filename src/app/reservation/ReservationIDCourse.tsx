@@ -45,6 +45,7 @@ export default function ReservationIDCourse() {
         </TabsList>
         {Object.entries(SportigoRoom).map(([key, value]) => (
           <TabsContent
+            key={key}
             value={key.toLowerCase()}
             className="flex flex-row gap-3 flex-wrap"
           >

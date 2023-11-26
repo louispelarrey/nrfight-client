@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 
 export interface Event {
   id: number;
+  label: string;
   startDate: string;
   room: string;
   roomName: string;

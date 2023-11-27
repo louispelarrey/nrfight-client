@@ -37,10 +37,10 @@ export default function ReservationIDCourse() {
             Tolbiac
           </TabsTrigger>
           <TabsTrigger
-            value="olympiades"
-            onClick={() => setRoom(SportigoRoom.OLYMPIADES)}
+            value="republique_coaching"
+            onClick={() => setRoom(SportigoRoom.REPUBLIQUE_COACHING)}
           >
-            Olympiades
+            Coaching
           </TabsTrigger>
         </TabsList>
         {Object.entries(SportigoRoom).map(([key, value]) => (

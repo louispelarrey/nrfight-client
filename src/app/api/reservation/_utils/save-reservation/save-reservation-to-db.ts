@@ -20,6 +20,8 @@ export default async function saveReservationToDb(
 
   const validExcludedDates = excludedDates.filter(
     (dateRange) =>
+      dateRange.from && 
+      dateRange.to &&
       isValidDate(dateRange.from.toString()) &&
       isValidDate(dateRange.to.toString())
   );

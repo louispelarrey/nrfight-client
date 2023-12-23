@@ -8,6 +8,7 @@ import { Protected } from "@/security/protected";
 import ReservationSave from "./reservation-save";
 import { Toaster } from "sonner";
 import AppHeader from "@/components/ui/app-header";
+import ReservationFuture from "./reservation-future";
 
 export default function Reservation() {
 
@@ -23,6 +24,8 @@ export default function Reservation() {
           <ReservationExcludeDays />
           {/* <Separator />
           <ReservationResults /> */}
+          <Separator />
+          <ReservationFuture />
           <Separator />
           <ReservationSave />
         </div>

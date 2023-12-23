@@ -3,8 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 
 export default function useToken() {
   const [tokenState, setTokenState] = useState<string | null>(null);
-
-  useQuery({
+  const { data: sportigoUser } = useQuery({
     queryKey: ["member"],
     queryFn: async () => {
       const res = await fetch("/api/member", {
@@ -43,5 +42,6 @@ export default function useToken() {
     setToken: saveToken,
     token: tokenState,
     logout: removeToken,
+    sportigoUser: sportigoUser,
   };
 }

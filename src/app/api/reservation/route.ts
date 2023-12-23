@@ -44,6 +44,11 @@ export async function GET(request: Request): Promise<Response> {
             from: true,
             to: true,
           },
+          where: {
+            to: {
+              gte: new Date(),
+            },
+          },
         },
       },
     });

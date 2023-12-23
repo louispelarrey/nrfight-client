@@ -6,13 +6,6 @@ import saveReservationToDb, {
   IReservedCourse,
 } from "./save-reservation/save-reservation-to-db";
 
-// export interface IReservedCourse {
-//   sportigoId: string;
-//   room: string;
-//   dayNumber: number;
-//   hour: string;
-// }
-
 interface NotExcludedDatesToReserve {
   sportigoId: string;
   room: string;

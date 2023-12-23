@@ -8,7 +8,7 @@ export async function POST(request: Request): Promise<Response> {
 
     if(data.code === 4003) return new Response('Not Connected', {status: 401})
 
-    return new Response('Connected', {status: 200})
+    return new Response(JSON.stringify(data), {status: 200})
   } catch (error) {
     console.log("API ERROR", error);
 

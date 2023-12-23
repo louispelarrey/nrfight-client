@@ -4,6 +4,7 @@ import { mergeReservedCourses } from "@/lib/merge-reserved-courses";
 import { FilterContext } from "@/providers/filter-provider";
 import { SportigoContext } from "@/providers/sportigo-data-provider";
 import { UserContext } from "@/providers/user-provider";
+import { useQueryClient } from "@tanstack/react-query";
 import { useContext, useState } from "react";
 import { toast } from 'sonner'
 
@@ -12,6 +13,7 @@ export default function useSendFiltersToServer() {
   const { reservedCourses, excludedDates } = useContext(FilterContext);
   const { sportigoData, isFetching, error } = useContext(SportigoContext);
   const [isLoading, setIsLoading] = useState(false);
+  const queryClient = useQueryClient();
 
   const sendToServer = async () => {
     setIsLoading(true);
@@ -34,6 +36,8 @@ export default function useSendFiltersToServer() {
       if (!res.ok) throw new Error("Error while sending data to server");
 
       toast.success("Données sauvegardées avec succès");
+
+      queryClient.invalidateQueries({ queryKey: ['member'] })
     } catch (error) {
       console.error("Error while sending data to server");
 

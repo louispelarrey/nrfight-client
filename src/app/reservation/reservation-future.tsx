@@ -18,16 +18,14 @@ export default function ReservationFuture() {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Salle</TableHead>
-            <TableHead>Description</TableHead>
+            <TableHead>Cours</TableHead>
             <TableHead>Date</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {sportigoUser?.member.reservations.map((reservation) => (
             <TableRow key={reservation.id}>
-              <TableCell>{reservation.roomName}</TableCell>
-              <TableCell>{reservation.description}</TableCell>
+              <TableCell>{reservation.roomName} | {reservation.description}</TableCell>
               <TableCell>
                 {new Date(reservation.dateStart).toLocaleDateString()} {""}
                 {new Date(reservation.dateStart).toLocaleTimeString()}

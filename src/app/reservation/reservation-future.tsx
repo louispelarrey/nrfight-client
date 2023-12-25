@@ -8,9 +8,12 @@ import {
   TableCell,
   TableHeader,
 } from "@/components/ui/table";
+import DeleteButton from "@/components/ui/delete-button";
+import useRemoveReservation from "@/hooks/use-remove-reservation";
 
 export default function ReservationFuture() {
   const { sportigoUser } = useContext(UserContext);
+  const removeReservation = useRemoveReservation();
 
   return (
     <>
@@ -18,19 +21,27 @@ export default function ReservationFuture() {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Salle</TableHead>
-            <TableHead>Description</TableHead>
+            <TableHead>Cours</TableHead>
             <TableHead>Date</TableHead>
+            <TableHead>Supprimer</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {sportigoUser?.member.reservations.map((reservation) => (
             <TableRow key={reservation.id}>
-              <TableCell>{reservation.roomName}</TableCell>
-              <TableCell>{reservation.description}</TableCell>
+              <TableCell>
+                {reservation.roomName} | {reservation.description}
+              </TableCell>
               <TableCell>
                 {new Date(reservation.dateStart).toLocaleDateString()} {""}
                 {new Date(reservation.dateStart).toLocaleTimeString()}
+              </TableCell>
+              <TableCell>
+                <DeleteButton
+                  removeFunction={
+                    () => removeReservation.mutate({ idActivity: reservation.id })
+                  }
+                />
               </TableCell>
             </TableRow>
           ))}

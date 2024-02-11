@@ -12,11 +12,16 @@ export function mergeReservedCourses(
       return reservedCourses.map((reservedCourse: ReservedCourse) => {
         if (!reservedCourse.sportigoId) return undefined;
 
+        // Create a new Date object from the startDate
+        const startDate = new Date(reservedCourse.startDate);
+        // Retire one hour
+        startDate.setHours(startDate.getHours() - 1);
+
         return {
           sportigoId: reservedCourse.sportigoId,
           room: room,
-          dayNumber: new Date(reservedCourse.startDate).getDay(),
-          hour: new Date(reservedCourse.startDate).toLocaleTimeString("fr-FR", {
+          dayNumber: startDate.getDay(),
+          hour: startDate.toLocaleTimeString("fr-FR", {
             hour: "2-digit",
             minute: "2-digit",
           }),

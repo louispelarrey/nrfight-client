@@ -41,10 +41,25 @@ export function mergeReservedCourses(
 
 // Helper function to get the timezone offset for Paris, considering daylight saving time
 function getParisTimezoneOffset(date: Date) {
-  // Assuming Paris time zone is either UTC+1 or UTC+2
-  const isDST = isDaylightSavingTimeInParis(date);
-  const offset = isDST ? 2 * 60 * 60000 : 1 * 60 * 60000; // Offset in milliseconds
-  return -offset; // Return negative value to subtract from UTC
+  // Check if we're in development environment
+  const isDevelopment = process.env.NODE_ENV === "development";
+
+  // Get the current time zone offset for Paris
+  const parisOffset = isDaylightSavingTimeInParis(date) ? 2 * 60 : 1 * 60; // Offset in minutes
+
+  // Get the local time zone offset in minutes
+  const localOffset = date.getTimezoneOffset();
+
+  // In development, adjust only if local time zone is not Paris
+  // Otherwise, always apply Paris offset
+  const offset = isDevelopment
+    ? localOffset === -parisOffset
+      ? 0
+      : parisOffset - localOffset
+    : parisOffset;
+
+  // Return the offset in milliseconds, adjusting for whether we're adding or subtracting time
+  return -offset * 60000; // Convert minutes to milliseconds and return negative for subtraction
 }
 
 // Determine if the given date is in daylight saving time for Paris

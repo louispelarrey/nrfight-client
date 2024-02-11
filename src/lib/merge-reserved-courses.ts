@@ -12,11 +12,19 @@ export function mergeReservedCourses(
       return reservedCourses.map((reservedCourse: ReservedCourse) => {
         if (!reservedCourse.sportigoId) return undefined;
 
+        // Create a date object for the startDate
+        const startDate = new Date(reservedCourse.startDate);
+
+        // Adjust the date for the Paris time zone before extracting the day and hour
+        const adjustedStartDate = new Date(
+          startDate.getTime() + getParisTimezoneOffset(startDate)
+        );
+
         return {
           sportigoId: reservedCourse.sportigoId,
           room: room,
-          dayNumber: new Date(reservedCourse.startDate).getDay(),
-          hour: new Date(reservedCourse.startDate).toLocaleTimeString("fr-FR", {
+          dayNumber: adjustedStartDate.getDay(),
+          hour: adjustedStartDate.toLocaleTimeString("fr-FR", {
             hour: "2-digit",
             minute: "2-digit",
             timeZone: "Europe/Paris",
@@ -29,4 +37,27 @@ export function mergeReservedCourses(
   return reservedCourses
     .flat()
     .filter((course) => course !== undefined) as IReservedCourse[];
+}
+
+// Helper function to get the timezone offset for Paris, considering daylight saving time
+function getParisTimezoneOffset(date: Date) {
+  // Assuming Paris time zone is either UTC+1 or UTC+2
+  const isDST = isDaylightSavingTimeInParis(date);
+  const offset = isDST ? 2 * 60 * 60000 : 1 * 60 * 60000; // Offset in milliseconds
+  return -offset; // Return negative value to subtract from UTC
+}
+
+// Determine if the given date is in daylight saving time for Paris
+function isDaylightSavingTimeInParis(date: Date) {
+  // This is a simplified way to check DST. For a robust solution, consider using a library like moment-timezone
+  const march = new Date(date.getFullYear(), 2, 31); // March 31st
+  const october = new Date(date.getFullYear(), 9, 31); // October 31st
+  const lastSundayMarch = new Date(
+    march.setDate(31 - ((march.getDay() + 1) % 7))
+  );
+  const lastSundayOctober = new Date(
+    october.setDate(31 - ((october.getDay() + 1) % 7))
+  );
+
+  return date >= lastSundayMarch && date < lastSundayOctober;
 }

@@ -39,40 +39,30 @@ export function mergeReservedCourses(
     .filter((course) => course !== undefined) as IReservedCourse[];
 }
 
-// Helper function to get the timezone offset for Paris, considering daylight saving time
+// Helper function to get the timezone offset for Paris, correctly considering daylight saving time
 function getParisTimezoneOffset(date: Date) {
-  // Check if we're in development environment
-  const isDevelopment = process.env.NODE_ENV === "development";
+  // Determine if the date is during daylight saving time in Paris
+  const isDST = isDaylightSavingTimeInParis(date);
 
-  // Get the current time zone offset for Paris
-  const parisOffset = isDaylightSavingTimeInParis(date) ? 2 * 60 : 1 * 60; // Offset in minutes
+  // Paris is UTC+1 in standard time, and UTC+2 in daylight saving time
+  const parisOffset = isDST ? 2 * 60 * 60000 : 1 * 60 * 60000; // Offset in milliseconds
 
-  // Get the local time zone offset in minutes
-  const localOffset = date.getTimezoneOffset();
-
-  // In development, adjust only if local time zone is not Paris
-  // Otherwise, always apply Paris offset
-  const offset = isDevelopment
-    ? localOffset === -parisOffset
-      ? 0
-      : parisOffset - localOffset
-    : parisOffset;
-
-  // Return the offset in milliseconds, adjusting for whether we're adding or subtracting time
-  return -offset * 60000; // Convert minutes to milliseconds and return negative for subtraction
+  // Calculate the difference between UTC time and Paris time, considering DST
+  // No need to adjust for 'development' or 'production' as the offset should always reflect Paris time
+  return parisOffset - date.getTimezoneOffset() * 60000;
 }
 
-// Determine if the given date is in daylight saving time for Paris
+// Adjusted function to determine DST in Paris more accurately
 function isDaylightSavingTimeInParis(date: Date) {
-  // This is a simplified way to check DST. For a robust solution, consider using a library like moment-timezone
-  const march = new Date(date.getFullYear(), 2, 31); // March 31st
-  const october = new Date(date.getFullYear(), 9, 31); // October 31st
-  const lastSundayMarch = new Date(
-    march.setDate(31 - ((march.getDay() + 1) % 7))
-  );
-  const lastSundayOctober = new Date(
-    october.setDate(31 - ((october.getDay() + 1) % 7))
-  );
+  // DST starts on the last Sunday of March and ends on the last Sunday of October
+  const march = new Date(date.getFullYear(), 2, 31);
+  const october = new Date(date.getFullYear(), 9, 31);
+  const lastSundayMarch = new Date(march.setDate(31 - march.getDay()));
+  const lastSundayOctober = new Date(october.setDate(31 - october.getDay()));
+
+  // Corrected to compare against the exact DST transition times
+  lastSundayMarch.setHours(2, 0, 0, 0); // DST starts at 02:00 CET
+  lastSundayOctober.setHours(3, 0, 0, 0); // DST ends at 03:00 CEST
 
   return date >= lastSundayMarch && date < lastSundayOctober;
 }
